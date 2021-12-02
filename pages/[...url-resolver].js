@@ -31,17 +31,12 @@ const URLResolver = ({ type, urlKey }) => {
 
 export default URLResolver;
 
-export async function getServerSideProps({ req, res, query }) {
+export async function getServerSideProps({ req, res, query, resolvedUrl }) {
   res?.setHeader("cache-control", "s-maxage=1, stale-while-revalidate");
 
   const apolloClient = initializeApollo();
-
-  const pathname = Array.isArray(query?.pathname)
-    ? query?.pathname.join("/")
-    : query?.pathname.replace("/", "");
-
-  let urlKey = pathname.split(".")?.shift();
-  urlKey = urlKey.split("/")?.pop();
+  const pathname = resolvedUrl.replace("/", "");
+  const urlKey = pathname.split(".")?.shift().split("/")?.pop();
 
   // If a type has been provided then return the props and render the Component
   if (query.type) {

@@ -46,9 +46,8 @@ export default function Category({ filters }) {
                 <li key={category.id}>
                   <Link
                     href={{
-                      pathname: "_url-resolver",
+                      pathname: `/${category.url_path + categoryUrlSuffix}`,
                       query: {
-                        pathname: `/${category.url_path + categoryUrlSuffix}`,
                         type: "CATEGORY",
                       },
                     }}

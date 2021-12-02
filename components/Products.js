@@ -65,16 +65,15 @@ export default function Products({ search, filters }) {
       >
         {products.map((product) => (
           <Card key={product.id}>
-            {/* eslint-disable-next-line @next/next/link-passhref */}
             <Link
               href={{
-                pathname: "_url-resolver",
+                pathname: `/${product.url_key + productUrlSuffix}`,
                 query: {
-                  pathname: `/${product.url_key + productUrlSuffix}`,
                   type: "PRODUCT",
                 },
               }}
               as={`/${product.url_key + productUrlSuffix}`}
+              passHref={true}
             >
               <CardActionArea>
                 <CardMedia>

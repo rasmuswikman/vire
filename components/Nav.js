@@ -41,9 +41,8 @@ export default function Nav({ ...props }) {
   const clearSearch = (option) => {
     router.push(
       {
-        pathname: "_url-resolver",
+        pathname: `/${option.url_key + productUrlSuffix}`,
         query: {
-          pathname: `/${option.url_key + productUrlSuffix}`,
           type: "PRODUCT",
         },
       },
@@ -216,11 +215,8 @@ export default function Nav({ ...props }) {
                   <ListItemText>
                     <Link
                       href={{
-                        pathname: "_url-resolver",
+                        pathname: `/${category.url_key + props.categoryUrlSuffix}`,
                         query: {
-                          pathname: `/${
-                            category.url_key + props.categoryUrlSuffix
-                          }`,
                           type: "CATEGORY",
                         },
                       }}
