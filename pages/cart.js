@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import cartQuery from "../queries/cart.graphql";
 import { useMainData } from "../lib/main-data";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Link from "next/link";
 
 const Cart = () => {
@@ -24,14 +25,20 @@ const Cart = () => {
     <div>
       {data ? (
         <>
-          {data.cart.items.map((item, index) => (
-            <div key={index}>
-              {item.quantity} x {item.product.name} - {item.prices.price.value}
-            </div>
-          ))}
-          <Link href="/checkout" passHref>
-            <Button variant="contained" component="a">Checkout</Button>
-          </Link>
+          <Box sx={{ mt: 1, textAlign: "center" }}>
+            {data.cart.items.map((item, index) => (
+              <div key={index}>
+                {`${item.quantity} x ${item.product.name} - ${item.prices.price.value}`}
+              </div>
+            ))}
+          </Box>
+          <Box sx={{ mt: 1, textAlign: "center" }}>
+            <Link href="/checkout" passHref>
+              <Button variant="contained" component="a">
+                Checkout
+              </Button>
+            </Link>
+          </Box>
         </>
       ) : (
         <>Cart is empty.</>

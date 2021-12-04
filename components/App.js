@@ -27,6 +27,9 @@ export default function App({ children }) {
       <Nav categories={categories} categoryUrlSuffix={categoryUrlSuffix} />
       <Box
         sx={{
+          maxWidth: "1200px",
+          marginLeft: "auto",
+          marginRight: "auto",
           marginTop: {
             xs: "150px",
             sm: "100px",

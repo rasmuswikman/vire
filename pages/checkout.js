@@ -3,8 +3,9 @@ import { useApolloClient } from "@apollo/client";
 import placeOrderMutation from "../queries/placeOrder.graphql";
 import { useMainData } from "../lib/main-data";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const Cart = () => {
   const client = useApolloClient();
@@ -12,7 +13,11 @@ const Cart = () => {
   const [loadingCheckout, setLoadingCheckout] = React.useState(false);
   const { mainData, setMainData } = useMainData();
   const [orderNumber, setOrderNumber] = React.useState(false);
-  const [variables, setVariables] = React.useState({});
+  const [variables, setVariables] = React.useState({
+    email: "firstname.lastname@example.com",
+    firstname: "Firstname",
+    lastname: "Lastname",
+  });
 
   React.useEffect(() => {
     setHasMounted(true);
@@ -38,9 +43,9 @@ const Cart = () => {
         firstname: variables.firstname,
         lastname: variables.lastname,
         telephone: "0123456789",
-        street: "Rantakatu 2",
-        city: "Vaasa",
-        postcode: "65100",
+        street: "Street Address",
+        city: "City",
+        postcode: "00000",
         country_code: "FI",
         carrier_code: "flatrate",
         method_code: "flatrate",
@@ -59,11 +64,12 @@ const Cart = () => {
       ) : (
         <>
           <Box sx={{ mt: 1, textAlign: "center" }}>
-          <TextField
+            <TextField
               sx={{ mt: 1, width: "100%" }}
               onChange={(event) => onChangeVariables(event)}
               name="email"
               placeholder="E-mail"
+              defaultValue="firstname.lastname@example.com"
               required={true}
             />
             <TextField
@@ -71,6 +77,7 @@ const Cart = () => {
               onChange={(event) => onChangeVariables(event)}
               name="firstname"
               placeholder="Firstname"
+              defaultValue="Firstname"
               required={true}
             />
             <TextField
@@ -78,17 +85,22 @@ const Cart = () => {
               onChange={(event) => onChangeVariables(event)}
               name="lastname"
               placeholder="Lastname"
+              defaultValue="Lastname"
               required={true}
             />
           </Box>
           <Box sx={{ mt: 1, textAlign: "center" }}>
-            <Button
-              variant="contained"
+            <LoadingButton
               onClick={checkout}
-              disabled={loadingCheckout}
+              size="large"
+              variant="contained"
+              disableElevation
+              loading={loadingCheckout}
+              endIcon={<KeyboardArrowRightIcon />}
+              loadingPosition="end"
             >
-              {loadingCheckout ? "Placing order..." : "Place order"}
-            </Button>
+              Place order
+            </LoadingButton>
           </Box>
         </>
       )}

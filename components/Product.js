@@ -6,7 +6,10 @@ import addProductsToCartMutation from "../queries/addProductsToCart.graphql";
 import Price from "./Price";
 import Head from "next/head";
 import Image from "next/image";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { useMainData } from "../lib/main-data";
 
 export default function Product({ filters }) {
@@ -51,25 +54,44 @@ export default function Product({ filters }) {
       <Head>
         <title>{product.name}</title>
       </Head>
-      <Image
-        src={product.media_gallery[0].url}
-        width={500}
-        height={620}
-        alt={product.media_gallery[0].label}
-      />
-      <h2>{product.name}</h2>
-      <div>
-        {product.sku} - {product.__typename}
-      </div>
-      <Price {...product.price_range} />
-      {product.__typename === "SimpleProduct" && (
-        <Button variant="contained" onClick={addToCart} disabled={loadingCart}>
-          {loadingCart ? "Adding..." : "Add to Cart"}
-        </Button>
-      )}
-      {product.description?.html && (
-        <div dangerouslySetInnerHTML={{ __html: product.description.html }} />
-      )}
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={5}>
+          <Image
+            src={product.media_gallery[0].url}
+            width={500}
+            height={620}
+            alt={product.media_gallery[0].label}
+          />
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <h2>{product.name}</h2>
+          <Price {...product.price_range} />
+          {product.__typename === "SimpleProduct" && (
+            <Box sx={{ my: 3 }}>
+              <LoadingButton
+                color="success"
+                onClick={addToCart}
+                size="large"
+                variant="contained"
+                disableElevation
+                loading={loadingCart}
+                endIcon={<KeyboardArrowRightIcon />}
+                loadingPosition="end"
+              >
+                Add to Cart
+              </LoadingButton>
+            </Box>
+          )}
+          <div>
+            {product.sku} - {product.__typename}
+          </div>
+          {product.description?.html && (
+            <div
+              dangerouslySetInnerHTML={{ __html: product.description.html }}
+            />
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 }

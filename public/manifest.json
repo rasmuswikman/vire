@@ -1,6 +1,6 @@
 {
   "short_name": "Vire",
-  "name": "Vire Storefront",
+  "name": "Vire",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#333333",
-  "background_color": "#333333"
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
 }
