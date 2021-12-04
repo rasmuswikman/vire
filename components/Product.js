@@ -1,8 +1,6 @@
 import React from "react";
-import { useQuery, useApolloClient } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import productQuery from "../queries/product.graphql";
-import createEmptyCartMutation from "../queries/createEmptyCart.graphql";
-import addProductsToCartMutation from "../queries/addProductsToCart.graphql";
 import Price from "./Price";
 import Head from "next/head";
 import Image from "next/image";
@@ -10,40 +8,17 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { useMainData } from "../lib/main-data";
+import useAddToCart from "../lib/useAddToCart";
 
 export default function Product({ filters }) {
-  const { mainData, setMainData } = useMainData();
-  const client = useApolloClient();
   const { loading, data } = useQuery(productQuery, { variables: { filters } });
   const product = data?.products.items[0];
   const [loadingCart, setLoadingCart] = React.useState(false);
 
-  const addToCart = async () => {
+  const { addToCart } = useAddToCart();
+  const handleAddToCart = async () => {
     setLoadingCart(true);
-    let cartId = mainData.cartId;
-    if (typeof mainData.cartId === "undefined") {
-      const { data } = await client.query({
-        query: createEmptyCartMutation,
-        fetchPolicy: "no-cache",
-      });
-      cartId = data.createEmptyCart;
-    }
-    const { data } = await client.query({
-      query: addProductsToCartMutation,
-      fetchPolicy: "no-cache",
-      variables: {
-        cartId,
-        cartItem: {
-          quantity: 1,
-          sku: product.sku,
-        },
-      },
-    });
-    setMainData({
-      ...mainData,
-      ...{ cartId, cartItems: data.addProductsToCart.cart.total_quantity },
-    });
+    await addToCart(product.sku);
     setLoadingCart(false);
   };
 
@@ -70,7 +45,7 @@ export default function Product({ filters }) {
             <Box sx={{ my: 3 }}>
               <LoadingButton
                 color="success"
-                onClick={addToCart}
+                onClick={handleAddToCart}
                 size="large"
                 variant="contained"
                 disableElevation

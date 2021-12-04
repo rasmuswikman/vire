@@ -12,8 +12,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
+import useAddToCart from "../lib/useAddToCart";
+import LoadingButton from "@mui/lab/LoadingButton";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export default function Products({ search, filters }) {
+  const { addToCart } = useAddToCart();
+  const handleAddToCart = async (sku) => {
+    setLoadingCart(true);
+    await addToCart(sku);
+    setLoadingCart(false);
+  };
+  const [loadingCart, setLoadingCart] = React.useState(false);
+
   const { loading, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
     variables: { search, filters },
     notifyOnNetworkStatusChange: true,
@@ -54,9 +65,14 @@ export default function Products({ search, filters }) {
       <Box
         sx={{
           display: "grid",
-          gap: 3,
+          gap: {
+            xs: 1,
+            sm: 2,
+            md: 3,
+            lg: 4,
+          },
           gridTemplateColumns: {
-            xs: "repeat(1, 1fr)",
+            xs: "repeat(2, 1fr)",
             sm: "repeat(2, 1fr)",
             md: "repeat(3, 1fr)",
             lg: "repeat(4, 1fr)",
@@ -87,21 +103,35 @@ export default function Products({ search, filters }) {
                     <Image
                       src={product.thumbnail.url}
                       alt={product.thumbnail.label}
-                      width={520}
-                      height={640}
+                      width={320}
+                      height={397}
                     />
                   </div>
                 </CardMedia>
-                <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <Price {...product.price_range} />
-                  </Typography>
-                </CardContent>
               </CardActionArea>
             </Link>
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="div">
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                <Price {...product.price_range} />
+              </Typography>
+              <Box sx={{ my: 3 }}>
+                <LoadingButton
+                  color="success"
+                  onClick={() => handleAddToCart(product.sku)}
+                  size="small"
+                  variant="contained"
+                  disableElevation
+                  loading={loadingCart}
+                  endIcon={<KeyboardArrowRightIcon />}
+                  loadingPosition="end"
+                >
+                  Add to Cart
+                </LoadingButton>
+              </Box>
+            </CardContent>
           </Card>
         ))}
       </Box>
