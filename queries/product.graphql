@@ -6,6 +6,7 @@ query ProductQuery($filters: ProductAttributeFilterInput!) {
       id
       sku
       name
+      __typename
 
       description {
         html

@@ -4,6 +4,7 @@ import APP_QUERY from "../queries/app.graphql";
 import Head from "next/head";
 import Box from "@mui/material/Box";
 import Nav from "./Nav";
+import NextNProgress from "nextjs-progressbar";
 
 export default function App({ children }) {
   const { data } = useQuery(APP_QUERY);
@@ -22,6 +23,7 @@ export default function App({ children }) {
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
+      <NextNProgress color="#333" height={1} />
       <Nav categories={categories} categoryUrlSuffix={categoryUrlSuffix} />
       <Box
         sx={{

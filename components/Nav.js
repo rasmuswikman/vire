@@ -21,8 +21,23 @@ import { useApolloClient } from "@apollo/client";
 import PRODUCTS_QUERY from "../queries/products.graphql";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
+import { useMainData } from "../lib/main-data";
+import Badge from "@mui/material/Badge";
+
+function ClientOnly({ children }) {
+  const [hasMounted, setHasMounted] = React.useState(false);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  if (!hasMounted) {
+    return null;
+  }
+  return <>{children}</>;
+}
 
 export default function Nav({ ...props }) {
+  const { mainData } = useMainData();
+
   const router = useRouter();
   const [drawer, setDrawer] = React.useState(false);
 
@@ -163,15 +178,29 @@ export default function Nav({ ...props }) {
           />
         </Box>
         <Box sx={{ order: { xs: 2, sm: 3 }, whiteSpace: "nowrap" }}>
+          <ClientOnly>
+            <Link href="/cart">
+              <a>
+                <IconButton
+                  size="large"
+                  sx={{ p: "8px" }}
+                  aria-label="Go to shopping bag"
+                >
+                  {mainData?.cartItems ? (
+                    <Badge badgeContent={mainData.cartItems} color="success">
+                      <ShoppingBagIcon
+                        sx={{ fontSize: "26px", color: "#333" }}
+                      />
+                    </Badge>
+                  ) : (
+                    <ShoppingBagIcon sx={{ fontSize: "26px", color: "#333" }} />
+                  )}
+                </IconButton>
+              </a>
+            </Link>
+          </ClientOnly>
           <IconButton size="large" sx={{ p: "8px" }} aria-label="Go to account">
             <AccountCircleIcon sx={{ fontSize: "26px", color: "#333" }} />
-          </IconButton>
-          <IconButton
-            size="large"
-            sx={{ p: "8px" }}
-            aria-label="Go to shopping bag"
-          >
-            <ShoppingBagIcon sx={{ fontSize: "26px", color: "#333" }} />
           </IconButton>
           <IconButton
             size="large"
@@ -215,7 +244,9 @@ export default function Nav({ ...props }) {
                   <ListItemText>
                     <Link
                       href={{
-                        pathname: `/${category.url_key + props.categoryUrlSuffix}`,
+                        pathname: `/${
+                          category.url_key + props.categoryUrlSuffix
+                        }`,
                         query: {
                           type: "CATEGORY",
                         },
