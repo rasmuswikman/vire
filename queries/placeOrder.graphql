@@ -1,0 +1,110 @@
+mutation SetBillingAddressOnCart(
+  $cartId: String!
+  $email: String!
+  $firstname: String!
+  $lastname: String!
+  $telephone: String!
+  $street: String!
+  $city: String!
+  $postcode: String!
+  $country_code: String!
+  $carrier_code: String!
+  $method_code: String!
+  $payment_method_code: String!
+) {
+  setGuestEmailOnCart(input: { cart_id: $cartId, email: $email }) {
+    cart {
+      email
+    }
+  }
+
+  setBillingAddressOnCart(
+    input: {
+      cart_id: $cartId
+      billing_address: {
+        address: {
+          firstname: $firstname
+          lastname: $lastname
+          telephone: $telephone
+          street: [$street]
+          city: $city
+          postcode: $postcode
+          country_code: $country_code
+        }
+        same_as_shipping: true
+      }
+    }
+  ) {
+    cart {
+      email
+
+      billing_address {
+        firstname
+        lastname
+        telephone
+        street
+        city
+        postcode
+        country {
+          code
+          label
+        }
+      }
+
+      shipping_addresses {
+        firstname
+        lastname
+        telephone
+        street
+        city
+        postcode
+        country {
+          code
+          label
+        }
+        available_shipping_methods {
+          carrier_code
+          carrier_title
+          method_code
+          method_title
+        }
+      }
+    }
+  }
+
+  setShippingMethodsOnCart(
+    input: {
+      cart_id: $cartId
+      shipping_methods: [
+        { carrier_code: $carrier_code, method_code: $method_code }
+      ]
+    }
+  ) {
+    cart {
+      shipping_addresses {
+        selected_shipping_method {
+          carrier_code
+          method_code
+          carrier_title
+          method_title
+        }
+      }
+    }
+  }
+
+  setPaymentMethodOnCart(
+    input: { cart_id: $cartId, payment_method: { code: $payment_method_code } }
+  ) {
+    cart {
+      selected_payment_method {
+        code
+      }
+    }
+  }
+
+  placeOrder(input: { cart_id: $cartId }) {
+    order {
+      order_number
+    }
+  }
+}

@@ -12,7 +12,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Backdrop from "@mui/material/Backdrop";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -199,9 +198,6 @@ export default function Nav({ ...props }) {
               </a>
             </Link>
           </ClientOnly>
-          <IconButton size="large" sx={{ p: "8px" }} aria-label="Go to account">
-            <AccountCircleIcon sx={{ fontSize: "26px", color: "#333" }} />
-          </IconButton>
           <IconButton
             size="large"
             sx={{ p: "8px" }}
