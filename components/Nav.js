@@ -24,6 +24,9 @@ import { useMainData } from "../lib/main-data";
 import Badge from "@mui/material/Badge";
 import Price from "./Price";
 import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
 
 function ClientOnly({ children }) {
   const [hasMounted, setHasMounted] = React.useState(false);
@@ -97,6 +100,15 @@ export default function Nav({ ...props }) {
     }
   }, [open]);
 
+  const [megaMenuAnchorEl, setMegaMenuAnchorEl] = React.useState(null);
+  const megaMenuOpen = Boolean(megaMenuAnchorEl);
+  const megaMenuHandleClick = (event) => {
+    setMegaMenuAnchorEl(event.currentTarget);
+  };
+  const megaMenuHandleClose = () => {
+    setMegaMenuAnchorEl(null);
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -110,7 +122,7 @@ export default function Nav({ ...props }) {
           md: "30px 30px 20px 30px",
           lg: "30px 40px 20px 40px",
         },
-        borderBottom: "1px solid rgba(0, 0, 0, .07)",
+        borderBottom: "1px solid rgba(0, 53, 102, .1)",
         backdropFilter: "blur(10px)",
       }}
     >
@@ -133,7 +145,7 @@ export default function Nav({ ...props }) {
             },
           }}
         >
-          <Box sx={{ flexGrow: { xs: 1, sm: 0 }, order: { xs: 1, sm: 1 } }}>
+          <Box sx={{ flexGrow: { xs: 1, sm: 0 }, order: { xs: 0, sm: 0 } }}>
             <Link href="/">
               <a>
                 <Image
@@ -144,6 +156,76 @@ export default function Nav({ ...props }) {
                 />
               </a>
             </Link>
+          </Box>
+          <Box
+            sx={{
+              ml: 6,
+              flexGrow: { xs: 1, sm: 0 },
+              order: { xs: 1, sm: 1 },
+              display: { xs: "none", sm: "block" },
+            }}
+          >
+            <Button
+              sx={{ color: "#003566", textTransform: "none" }}
+              aria-controls="basic-menu"
+              aria-haspopup="true"
+              aria-expanded={megaMenuOpen ? "true" : undefined}
+              onClick={megaMenuHandleClick}
+            >
+              <strong>Products</strong>
+            </Button>
+            <Menu
+              PaperProps={{
+                style: {
+                  width: "calc(100vw - 32px)",
+                  maxWidth: "1200px",
+                  transform: "translateX(calc(50vw - 50% - 16px))",
+                  background: "#FFD60A",
+                },
+              }}
+              TransitionComponent={Fade}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              anchorEl={megaMenuAnchorEl}
+              open={megaMenuOpen}
+              onClose={megaMenuHandleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  p: 5,
+                }}
+              >
+                {props.categories?.map((category) => (
+                  <Box key={category.id} sx={{ mx: 2 }}>
+                    <Link
+                      href={{
+                        pathname: `/${
+                          category.url_key + props.categoryUrlSuffix
+                        }`,
+                        query: {
+                          type: "CATEGORY",
+                        },
+                      }}
+                      as={`/${category.url_key + props.categoryUrlSuffix}`}
+                    >
+                      <a onClick={megaMenuHandleClose}>{category.name}</a>
+                    </Link>
+                  </Box>
+                ))}
+              </Box>
+            </Menu>
           </Box>
           <Box
             sx={{
@@ -206,7 +288,7 @@ export default function Nav({ ...props }) {
           </Box>
           <Box sx={{ order: { xs: 2, sm: 3 }, whiteSpace: "nowrap" }}>
             <ClientOnly>
-              <Link href="/cart">
+              <Link href="/checkout">
                 <a>
                   <IconButton
                     size="large"
@@ -214,14 +296,19 @@ export default function Nav({ ...props }) {
                     aria-label="Go to shopping bag"
                   >
                     {mainData?.cartItems ? (
-                      <Badge badgeContent={mainData.cartItems} color="primary">
+                      <Badge
+                        badgeContent={mainData.cartItems}
+                        color="secondary"
+                      >
                         <ShoppingBagIcon
-                          sx={{ fontSize: "26px", color: "#333" }}
+                          color="primary"
+                          sx={{ fontSize: "26px" }}
                         />
                       </Badge>
                     ) : (
                       <ShoppingBagIcon
-                        sx={{ fontSize: "26px", color: "#333" }}
+                        color="primary"
+                        sx={{ fontSize: "26px" }}
                       />
                     )}
                   </IconButton>
@@ -234,7 +321,7 @@ export default function Nav({ ...props }) {
               onClick={() => toggleDrawer(true)}
               aria-label="Show menu"
             >
-              <MenuIcon sx={{ fontSize: "26px", color: "#333" }} />
+              <MenuIcon color="primary" sx={{ fontSize: "26px" }} />
             </IconButton>
           </Box>
           <Drawer

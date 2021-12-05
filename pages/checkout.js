@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Loading from "../components/Loading";
 import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 const Cart = () => {
   const client = useApolloClient();
@@ -90,40 +91,65 @@ const Cart = () => {
         </Box>
       ) : data ? (
         <>
-          <Box sx={{ mt: "-60px", textAlign: "center" }}>
-            {data.cart.items.map((item, index) => (
-              <div key={index}>
-                {`${item.quantity} x ${item.product.name} - ${item.prices.price.value}`}
-              </div>
-            ))}
-          </Box>
-          <Box sx={{ mt: 1, textAlign: "center" }}>
-            <TextField
-              sx={{ mt: 1, width: "100%" }}
-              onChange={(event) => onChangeVariables(event)}
-              name="email"
-              placeholder="E-mail"
-              defaultValue="firstname.lastname@example.com"
-              required={true}
-            />
-            <TextField
-              sx={{ mt: 1, width: "100%" }}
-              onChange={(event) => onChangeVariables(event)}
-              name="firstname"
-              placeholder="Firstname"
-              defaultValue="Firstname"
-              required={true}
-            />
-            <TextField
-              sx={{ mt: 1, width: "100%" }}
-              onChange={(event) => onChangeVariables(event)}
-              name="lastname"
-              placeholder="Lastname"
-              defaultValue="Lastname"
-              required={true}
-            />
-          </Box>
-          <Box sx={{ mt: 1, textAlign: "center" }}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="flex-start"
+            spacing={8}
+            sx={{ mt: "-100px" }}
+          >
+            <Grid item xs={4}>
+              <Typography gutterBottom variant="h5">
+                Shopping bag
+              </Typography>
+              {data.cart.items.map((item, index) => (
+                <div key={index}>
+                  {`${item.quantity} x ${item.product.name} - ${item.prices.price.value}`}
+                </div>
+              ))}
+            </Grid>
+            <Grid item xs={4}>
+              <Typography gutterBottom variant="h5">
+                Contact details
+              </Typography>
+              <TextField
+                size="small"
+                sx={{ mt: 1, width: "100%" }}
+                onChange={(event) => onChangeVariables(event)}
+                name="email"
+                placeholder="E-mail"
+                defaultValue="firstname.lastname@example.com"
+                required={true}
+              />
+              <TextField
+                size="small"
+                sx={{ mt: 1, width: "100%" }}
+                onChange={(event) => onChangeVariables(event)}
+                name="firstname"
+                placeholder="Firstname"
+                defaultValue="Firstname"
+                required={true}
+              />
+              <TextField
+                size="small"
+                sx={{ mt: 1, width: "100%" }}
+                onChange={(event) => onChangeVariables(event)}
+                name="lastname"
+                placeholder="Lastname"
+                defaultValue="Lastname"
+                required={true}
+              />
+              ...
+            </Grid>
+            <Grid item xs={4}>
+              <Typography gutterBottom variant="h5">
+                Shipping & payment
+              </Typography>
+              ...
+            </Grid>
+          </Grid>
+          <Box sx={{ mt: 10, textAlign: "center" }}>
             <LoadingButton
               onClick={checkout}
               size="large"

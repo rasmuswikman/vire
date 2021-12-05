@@ -4,13 +4,14 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Products from "./Products";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
       <Box
         sx={{
-          background: "rgba(0, 0, 0, .02)",
+          background: "rgba(0, 53, 102, .03)",
           textAlign: "center",
           display: {
             xs: "none",
@@ -52,9 +53,18 @@ export default function Home() {
             sx={{ p: 6, pb: 15 }}
           >
             <Grid item xs={4}>
-              <Typography gutterBottom variant="h5" component="h4">
-                <Image src="/logos/mui.svg" alt="MUI" width={51} height={44} />
-              </Typography>
+              <Link href="https://www.mui.com/">
+                <a>
+                  <Typography gutterBottom variant="h5" component="h4">
+                    <Image
+                      src="/logos/mui.svg"
+                      alt="MUI"
+                      width={51}
+                      height={44}
+                    />
+                  </Typography>
+                </a>
+              </Link>
               <Typography variant="body2">
                 MUI provides a robust, customizable, and accessible library of
                 foundational and advanced components, enabling you to build your
@@ -62,14 +72,18 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Typography gutterBottom variant="h5" component="h4">
-                <Image
-                  src="/logos/next.svg"
-                  alt="Next"
-                  width={77}
-                  height={46}
-                />
-              </Typography>
+              <Link href="https://nextjs.org/">
+                <a>
+                  <Typography gutterBottom variant="h5" component="h4">
+                    <Image
+                      src="/logos/next.svg"
+                      alt="Next"
+                      width={77}
+                      height={46}
+                    />
+                  </Typography>
+                </a>
+              </Link>
               <Typography variant="body2">
                 Next.js gives you the best developer experience with all the
                 features you need for production: hybrid static & server
@@ -78,14 +92,18 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Typography gutterBottom variant="h5" component="h4">
-                <Image
-                  src="/logos/adobexpcloud.svg"
-                  alt="Next"
-                  width={46}
-                  height={45}
-                />
-              </Typography>
+              <Link href="https://magento.com/">
+                <a>
+                  <Typography gutterBottom variant="h5" component="h4">
+                    <Image
+                      src="/logos/adobexpcloud.svg"
+                      alt="Next"
+                      width={46}
+                      height={45}
+                    />
+                  </Typography>
+                </a>
+              </Link>
               <Typography variant="body2">
                 Create engaging, shoppable experiences with Adobe Commerce. See
                 how our next-generation technology, global partner ecosystem,
@@ -102,8 +120,8 @@ export default function Home() {
           marginLeft: "auto",
           marginRight: "auto",
           padding: {
-            xs: "30px 20px 100px 20px",
-            sm: "30px 25px 100px 25px",
+            xs: "190px 20px 100px 20px",
+            sm: "140px 25px 100px 25px",
             md: "30px 30px 100px 30px",
             lg: "30px 40px 100px 40px",
           },

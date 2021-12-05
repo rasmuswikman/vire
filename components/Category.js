@@ -4,63 +4,63 @@ import CATEGORY_QUERY from "../queries/category.graphql";
 import Products from "./Products";
 import Link from "next/link";
 import Head from "next/head";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Loading from "../components/Loading";
 
 export default function Category({ filters }) {
-  const { loading, data, error } = useQuery(CATEGORY_QUERY, {
+  const { loading, data } = useQuery(CATEGORY_QUERY, {
     variables: { filters },
   });
 
-  if (error) {
-    console.error(error);
-    return <div>There was an error.</div>;
-  }
-
-  if (loading && !data) return <div>Loading...</div>;
+  if (loading && !data) return <Loading />;
 
   const category = data.categoryList[0];
-
   const categoryUrlSuffix = data.storeConfig.category_url_suffix ?? "";
-
-  const backUrl =
-    category.breadcrumbs &&
-    category.breadcrumbs[0]?.category_url_path + categoryUrlSuffix;
 
   return (
     <>
       <Head>
         <title>{category.name}</title>
       </Head>
-        <header>
-          {backUrl && (
-            <Link key={backUrl} href={`/${backUrl}`}>
-              <a>⬅</a>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+        {category.breadcrumbs?.length > 0 &&
+          category.breadcrumbs.map((breadcrumb, index) => (
+            <Link
+              href={`/${breadcrumb.category_url_path + categoryUrlSuffix}`}
+              key={index}
+            >
+              <a>{breadcrumb.category_name}</a>
             </Link>
-          )}
-
-          <h2>{category.name}</h2>
-        </header>
-        {category.children?.length > 0 && (
-          <nav>
-            <ul>
-              {category.children.map((category) => (
-                <li key={category.id}>
-                  <Link
-                    href={{
-                      pathname: `/${category.url_path + categoryUrlSuffix}`,
-                      query: {
-                        type: "CATEGORY",
-                      },
-                    }}
-                    as={`/${category.url_path + categoryUrlSuffix}`}
-                  >
-                    <a>{category.name}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-        <Products filters={{ category_id: { eq: category.id } }} />
+          ))}
+        <Typography color="text.primary">{category.name}</Typography>
+      </Breadcrumbs>
+      <Typography gutterBottom variant="h4" sx={{ my: 5 }}>
+        {category.name}
+      </Typography>
+      {category.children?.length > 0 && (
+        <ul>
+          {category.children.map((category) => (
+            <li key={category.id}>
+              <Link
+                href={{
+                  pathname: `/${category.url_path + categoryUrlSuffix}`,
+                  query: {
+                    type: "CATEGORY",
+                  },
+                }}
+                as={`/${category.url_path + categoryUrlSuffix}`}
+              >
+                <a>{category.name}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      <Products filters={{ category_id: { eq: category.id } }} />
     </>
   );
-};
+}

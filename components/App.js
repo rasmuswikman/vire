@@ -30,7 +30,7 @@ export default function App({ children }) {
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <NextNProgress color="#219EBC" height={1} />
+      <NextNProgress color="#003566" height={1} />
       <Nav categories={categories} categoryUrlSuffix={categoryUrlSuffix} />
       <Box sx={{ background: "#fff", minHeight: "50vh" }}>{children}</Box>
       <Box

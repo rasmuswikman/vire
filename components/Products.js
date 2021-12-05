@@ -80,7 +80,7 @@ export default function Products({ search, filters, pageSize }) {
         }}
       >
         {products.map((product) => (
-          <Card key={product.id}>
+          <Card key={product.id} variant="outlined">
             <Link
               href={{
                 pathname: `/${product.url_key + productUrlSuffix}`,
