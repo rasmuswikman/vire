@@ -14,9 +14,9 @@ import CardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
 import useAddToCart from "../lib/useAddToCart";
 import LoadingButton from "@mui/lab/LoadingButton";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Loading from "../components/Loading";
 
-export default function Products({ search, filters }) {
+export default function Products({ search, filters, pageSize }) {
   const { addToCart } = useAddToCart();
   const handleAddToCart = async (sku) => {
     setLoadingCart(true);
@@ -26,7 +26,7 @@ export default function Products({ search, filters }) {
   const [loadingCart, setLoadingCart] = React.useState(false);
 
   const { loading, data, fetchMore } = useQuery(PRODUCTS_QUERY, {
-    variables: { search, filters },
+    variables: { search, filters, pageSize },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -56,7 +56,7 @@ export default function Products({ search, filters }) {
     });
   }, [loading, page, fetchMore]);
 
-  if (loading && !data) return <div>Loading...</div>;
+  if (loading && !data) return <Loading />;
 
   if (products.length === 0) return <div>No products found.</div>;
 
@@ -117,16 +117,13 @@ export default function Products({ search, filters }) {
               <Typography variant="body2" color="text.secondary">
                 <Price {...product.price_range} />
               </Typography>
-              <Box sx={{ my: 3 }}>
+              <Box sx={{ mt: 3 }}>
                 <LoadingButton
-                  color="success"
                   onClick={() => handleAddToCart(product.sku)}
                   size="small"
                   variant="contained"
                   disableElevation
                   loading={loadingCart}
-                  endIcon={<KeyboardArrowRightIcon />}
-                  loadingPosition="end"
                 >
                   Add to Cart
                 </LoadingButton>

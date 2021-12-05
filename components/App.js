@@ -5,6 +5,8 @@ import Head from "next/head";
 import Box from "@mui/material/Box";
 import Nav from "./Nav";
 import NextNProgress from "nextjs-progressbar";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import Link from "next/link";
 
 export default function App({ children }) {
   const { data } = useQuery(APP_QUERY);
@@ -14,6 +16,11 @@ export default function App({ children }) {
 
   return (
     <>
+      <GlobalStyles
+        styles={(theme) => ({
+          body: { backgroundColor: "#fafafa" },
+        })}
+      />
       <Head>
         <title>Vire{/*store?.default_title*/}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -23,26 +30,22 @@ export default function App({ children }) {
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <NextNProgress color="#333" height={1} />
+      <NextNProgress color="#219EBC" height={1} />
       <Nav categories={categories} categoryUrlSuffix={categoryUrlSuffix} />
+      <Box sx={{ background: "#fff", minHeight: "50vh" }}>{children}</Box>
       <Box
         sx={{
-          maxWidth: "1200px",
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: {
-            xs: "150px",
-            sm: "100px",
-          },
-          padding: {
-            xs: "30px 20px 100px 20px",
-            sm: "30px 25px 100px 25px",
-            md: "30px 30px 100px 30px",
-            lg: "30px 40px 100px 40px",
-          },
+          background: "#fafafa",
+          textAlign: "center",
+          pt: 6,
+          pb: 15,
+          fontSize: "0.9rem",
         }}
       >
-        {children}
+        Vire sai aikaan väreitä veden pintaan. –{" "}
+        <Link href="https://fi.wiktionary.org/wiki/vire">
+          <a>Wiktionary</a>
+        </Link>
       </Box>
     </>
   );

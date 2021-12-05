@@ -22,6 +22,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { useMainData } from "../lib/main-data";
 import Badge from "@mui/material/Badge";
+import Price from "./Price";
+import Typography from "@mui/material/Typography";
 
 function ClientOnly({ children }) {
   const [hasMounted, setHasMounted] = React.useState(false);
@@ -103,12 +105,12 @@ export default function Nav({ ...props }) {
         background: "rgba(255, 255, 255, 0.9)",
         color: "#000",
         padding: {
-          xs: "30px 20px 15px 20px",
-          sm: "30px 25px 15px 25px",
-          md: "30px 30px 15px 30px",
-          lg: "30px 40px 15px 40px",
+          xs: "30px 20px 20px 20px",
+          sm: "30px 25px 20px 25px",
+          md: "30px 30px 20px 30px",
+          lg: "30px 40px 20px 40px",
         },
-        borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+        borderBottom: "1px solid rgba(0, 0, 0, .07)",
         backdropFilter: "blur(10px)",
       }}
     >
@@ -137,8 +139,8 @@ export default function Nav({ ...props }) {
                 <Image
                   src="/logo.svg"
                   alt="Store logo"
-                  width={90}
-                  height={30}
+                  width={124}
+                  height={33}
                 />
               </a>
             </Link>
@@ -167,8 +169,17 @@ export default function Nav({ ...props }) {
               }
               getOptionLabel={(option) => option.name}
               renderOption={(props, option) => (
-                <Box component="li" {...props}>
-                  {option.name}
+                <Box sx={{ display: "flex" }} {...props}>
+                  <Image
+                    src={option.thumbnail.url}
+                    width={62}
+                    height={77}
+                    alt={option.thumbnail.label}
+                  />
+                  <Box sx={{ ml: 2 }}>
+                    <Typography variant="h6">{option.name}</Typography>
+                    <Price {...option.price_range} />
+                  </Box>
                 </Box>
               )}
               options={options}
@@ -183,16 +194,11 @@ export default function Nav({ ...props }) {
                   placeholder="What are you looking for?"
                   InputProps={{
                     ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {loading ? (
-                          <CircularProgress color="inherit" size={20} />
-                        ) : (
-                          <SearchIcon />
-                        )}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
+                    style: { paddingLeft: "24px" },
+                    endAdornment: loading && (
+                      <CircularProgress color="inherit" size={20} />
                     ),
+                    startAdornment: <SearchIcon sx={{ mr: 1 }} />,
                   }}
                 />
               )}
@@ -208,7 +214,7 @@ export default function Nav({ ...props }) {
                     aria-label="Go to shopping bag"
                   >
                     {mainData?.cartItems ? (
-                      <Badge badgeContent={mainData.cartItems} color="success">
+                      <Badge badgeContent={mainData.cartItems} color="primary">
                         <ShoppingBagIcon
                           sx={{ fontSize: "26px", color: "#333" }}
                         />
@@ -243,8 +249,8 @@ export default function Nav({ ...props }) {
                   return styles.backdrop;
                 },
               })({
-                background: "rgba(0, 0, 0, 0.03)",
-                backdropFilter: "blur(10px)",
+                background: "rgba(0, 0, 0, .02)",
+                backdropFilter: "blur(5px)",
               }),
             }}
           >
@@ -252,7 +258,7 @@ export default function Nav({ ...props }) {
               sx={{
                 height: "100vh",
                 p: 3,
-                width: 280,
+                width: 320,
               }}
               role="presentation"
               onClick={() => toggleDrawer(false)}

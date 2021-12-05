@@ -5,10 +5,11 @@ import Price from "./Price";
 import Head from "next/head";
 import Image from "next/image";
 import LoadingButton from "@mui/lab/LoadingButton";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import useAddToCart from "../lib/useAddToCart";
+import Loading from "../components/Loading";
+import Typography from "@mui/material/Typography";
 
 export default function Product({ filters }) {
   const { loading, data } = useQuery(productQuery, { variables: { filters } });
@@ -22,14 +23,20 @@ export default function Product({ filters }) {
     setLoadingCart(false);
   };
 
-  if (loading && !data) return <div>Loading...</div>;
+  if (loading && !data) return <Loading />;
 
   return (
     <>
       <Head>
         <title>{product.name}</title>
       </Head>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={10}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Grid item xs={12} md={5}>
           <Image
             src={product.media_gallery[0].url}
@@ -39,31 +46,31 @@ export default function Product({ filters }) {
           />
         </Grid>
         <Grid item xs={12} md={7}>
-          <h2>{product.name}</h2>
-          <Price {...product.price_range} />
+          <Typography gutterBottom variant="h4">
+            {product.name}
+          </Typography>
+          <Typography variant="h5">
+            <Price {...product.price_range} />
+          </Typography>
           {product.__typename === "SimpleProduct" && (
             <Box sx={{ my: 3 }}>
               <LoadingButton
-                color="success"
                 onClick={handleAddToCart}
                 size="large"
                 variant="contained"
                 disableElevation
                 loading={loadingCart}
-                endIcon={<KeyboardArrowRightIcon />}
-                loadingPosition="end"
               >
                 Add to Cart
               </LoadingButton>
             </Box>
           )}
-          <div>
-            {product.sku} - {product.__typename}
-          </div>
           {product.description?.html && (
-            <div
-              dangerouslySetInnerHTML={{ __html: product.description.html }}
-            />
+            <Typography variant="body1" component="div">
+              <div
+                dangerouslySetInnerHTML={{ __html: product.description.html }}
+              />
+            </Typography>
           )}
         </Grid>
       </Grid>

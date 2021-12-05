@@ -8,25 +8,42 @@ import CATEGORY_QUERY from "../queries/category.graphql";
 import PRODUCT_QUERY from "../queries/product.graphql";
 import Category from "../components/Category";
 import Product from "../components/Product";
+import Box from "@mui/material/Box";
+
+const renderSwitch = (type, urlKey) => {
+  switch (type) {
+    case "CMS_PAGE":
+      return <div>CMS is not implemented in this sample.</div>;
+    case "CATEGORY":
+      return <Category filters={{ url_key: { eq: urlKey } }} />;
+    case "PRODUCT":
+      return <Product filters={{ url_key: { eq: urlKey } }} />;
+    case "404":
+      return <Error statusCode={404} />;
+    default:
+      return <Error statusCode={500} />;
+  }
+};
 
 const URLResolver = ({ type, urlKey }) => {
-  if (type === "CMS_PAGE") {
-    return <div>CMS is not implemented in this sample.</div>;
-  }
-
-  if (type === "CATEGORY") {
-    return <Category filters={{ url_key: { eq: urlKey } }} />;
-  }
-
-  if (type === "PRODUCT") {
-    return <Product filters={{ url_key: { eq: urlKey } }} />;
-  }
-
-  if (type === "404") {
-    return <Error statusCode={404} />;
-  }
-
-  return <Error statusCode={500} />;
+  return (
+    <Box
+      sx={{
+        background: "#fff",
+        maxWidth: "1200px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        padding: {
+          xs: "130px 20px 100px 20px",
+          sm: "130px 25px 100px 25px",
+          md: "130px 30px 100px 30px",
+          lg: "130px 40px 100px 40px",
+        },
+      }}
+    >
+      {renderSwitch(type, urlKey)}
+    </Box>
+  );
 };
 
 export default URLResolver;

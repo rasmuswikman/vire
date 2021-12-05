@@ -6,7 +6,8 @@ import { useMainData } from "../lib/main-data";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Loading from "../components/Loading";
+import Typography from "@mui/material/Typography";
 
 const Cart = () => {
   const client = useApolloClient();
@@ -29,7 +30,7 @@ const Cart = () => {
   }, []);
 
   if (!hasMounted) return null;
-  if (loading && !data) return <div>Loading...</div>;
+  if (loading && !data) return <Loading />;
 
   const onChangeVariables = (event) => {
     const obj = {};
@@ -64,12 +65,32 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        background: "#fff",
+        maxWidth: "1200px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        padding: {
+          xs: "210px 20px 100px 20px",
+          sm: "210px 25px 100px 25px",
+          md: "210px 30px 100px 30px",
+          lg: "210px 40px 100px 40px",
+        },
+      }}
+    >
       {orderNumber ? (
-        <div>Thank you for your order {orderNumber}!</div>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography gutterBottom variant="h5">
+            Thank you for your order!
+          </Typography>
+          <Typography variant="subtitle1">
+            Order number: {orderNumber}
+          </Typography>
+        </Box>
       ) : data ? (
         <>
-          <Box sx={{ mt: 1, textAlign: "center" }}>
+          <Box sx={{ mt: "-60px", textAlign: "center" }}>
             {data.cart.items.map((item, index) => (
               <div key={index}>
                 {`${item.quantity} x ${item.product.name} - ${item.prices.price.value}`}
@@ -104,23 +125,22 @@ const Cart = () => {
           </Box>
           <Box sx={{ mt: 1, textAlign: "center" }}>
             <LoadingButton
-              color="success"
               onClick={checkout}
               size="large"
               variant="contained"
               disableElevation
               loading={loadingCheckout}
-              endIcon={<KeyboardArrowRightIcon />}
-              loadingPosition="end"
             >
               Place order
             </LoadingButton>
           </Box>
         </>
       ) : (
-        <>Cart is empty.</>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography variant="h5">Shopping bag is empty.</Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
