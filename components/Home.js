@@ -31,17 +31,19 @@ export default function Home() {
             marginBottom: 4,
           }}
         >
-          <Box sx={{ p: 1 }}>
+          <Box sx={{ p: 1, maxWidth: "600px", margin: "0 auto" }}>
             <Typography
               gutterBottom
               variant="h3"
               component="h4"
               sx={{ pr: 5, pt: 15 }}
             >
-              <Image src="/logo.svg" alt="MUI" width={303} height={81} />
+              <Image src="/logo.svg" alt="MUI" width={266} height={71} />
             </Typography>
-            <Typography variant="h4" color="#023047" sx={{ fontWeight: 300 }}>
-              Progressive commerce.
+            <Typography variant="body2" sx={{ fontSize: "1.1rem" }}>
+              Vire is a headless storefront for Adobe Commerce without complex
+              middlewares or custom tooling – just a React app on a
+              GraphQL API using the most popular libraries & frameworks.
             </Typography>
           </Box>
           <Grid
@@ -52,7 +54,7 @@ export default function Home() {
             spacing={8}
             sx={{ p: 6, pb: 15 }}
           >
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Link href="https://www.mui.com/">
                 <a>
                   <Typography gutterBottom variant="h5" component="h4">
@@ -67,11 +69,10 @@ export default function Home() {
               </Link>
               <Typography variant="body2">
                 MUI provides a robust, customizable, and accessible library of
-                foundational and advanced components, enabling you to build your
-                own design system and develop React applications faster.
+                components.
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <Link href="https://nextjs.org/">
                 <a>
                   <Typography gutterBottom variant="h5" component="h4">
@@ -86,12 +87,28 @@ export default function Home() {
               </Link>
               <Typography variant="body2">
                 Next.js gives you the best developer experience with all the
-                features you need for production: hybrid static & server
-                rendering, TypeScript support, smart bundling, route
-                pre-fetching, and more. No config needed.
+                features you need for production.
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
+              <Link href="https://www.apollographql.com/">
+                <a>
+                  <Typography gutterBottom variant="h5" component="h4">
+                    <Image
+                      src="/logos/apollo.svg"
+                      alt="Apollo GraphQL"
+                      width={153}
+                      height={45}
+                    />
+                  </Typography>
+                </a>
+              </Link>
+              <Typography variant="body2">
+                The Apollo Graph Platform unifies GraphQL across your apps and
+                services.
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
               <Link href="https://magento.com/">
                 <a>
                   <Typography gutterBottom variant="h5" component="h4">
@@ -105,9 +122,7 @@ export default function Home() {
                 </a>
               </Link>
               <Typography variant="body2">
-                Create engaging, shoppable experiences with Adobe Commerce. See
-                how our next-generation technology, global partner ecosystem,
-                and extensions marketplace can breathe life into your business.
+                Create engaging, shoppable experiences with Adobe Commerce.
               </Typography>
             </Grid>
           </Grid>
