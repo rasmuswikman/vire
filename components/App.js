@@ -3,10 +3,11 @@ import { useQuery } from "@apollo/client";
 import APP_QUERY from "../queries/app.graphql";
 import Head from "next/head";
 import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
 import Nav from "./Nav";
 import NextNProgress from "nextjs-progressbar";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import Link from "next/link";
+import NextLink from "next/link";
 
 export default function App({ children }) {
   const { data } = useQuery(APP_QUERY);
@@ -30,7 +31,7 @@ export default function App({ children }) {
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <NextNProgress color="#003566" height={1} />
+      <NextNProgress color="#333" height={1} />
       <Nav categories={categories} categoryUrlSuffix={categoryUrlSuffix} />
       <Box sx={{ background: "#fff", minHeight: "50vh" }}>{children}</Box>
       <Box
@@ -42,10 +43,9 @@ export default function App({ children }) {
           fontSize: "0.9rem",
         }}
       >
-        Vire sai aikaan väreitä veden pintaan. –{" "}
-        <Link href="https://fi.wiktionary.org/wiki/vire">
-          <a>Wiktionary</a>
-        </Link>
+        <NextLink href="https://fi.wiktionary.org/wiki/vire" passHref>
+          <Link>Vire sai aikaan väreitä veden pintaan.</Link>
+        </NextLink>
       </Box>
     </>
   );

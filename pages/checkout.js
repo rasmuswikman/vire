@@ -163,7 +163,7 @@ const Cart = () => {
         </>
       ) : (
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h5">Shopping bag is empty.</Typography>
+          <Typography variant="h5">Your shopping bag is empty.</Typography>
         </Box>
       )}
     </Box>

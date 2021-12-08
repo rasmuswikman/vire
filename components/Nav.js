@@ -1,8 +1,9 @@
 import React from "react";
-import Link from "next/link";
+import NextLink from "next/link";
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
+import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -117,13 +118,13 @@ export default function Nav({ ...props }) {
         background: "rgba(255, 255, 255, 0.9)",
         color: "#000",
         padding: {
-          xs: "30px 20px 20px 20px",
-          sm: "30px 25px 20px 25px",
-          md: "30px 30px 20px 30px",
-          lg: "30px 40px 20px 40px",
+          xs: "25px 20px 20px 20px",
+          sm: "25px 25px 20px 25px",
+          md: "25px 30px 20px 30px",
+          lg: "25px 40px 20px 40px",
         },
-        borderBottom: "1px solid rgba(0, 53, 102, .1)",
         backdropFilter: "blur(10px)",
+        borderBottom: "2px solid #fafafa"
       }}
     >
       <Toolbar sx={{ mr: { xs: 0, sm: -1 } }} disableGutters>
@@ -146,27 +147,27 @@ export default function Nav({ ...props }) {
           }}
         >
           <Box sx={{ flexGrow: { xs: 1, sm: 0 }, order: { xs: 0, sm: 0 } }}>
-            <Link href="/">
-              <a>
+            <NextLink href="/" passHref>
+              <Link>
                 <Image
                   src="/logo.svg"
                   alt="Store logo"
-                  width={124}
-                  height={33}
+                  width={120}
+                  height={37}
                 />
-              </a>
-            </Link>
+              </Link>
+            </NextLink>
           </Box>
           <Box
             sx={{
-              ml: 6,
+              ml: 4,
               flexGrow: { xs: 1, sm: 0 },
               order: { xs: 1, sm: 1 },
               display: { xs: "none", sm: "block" },
             }}
           >
             <Button
-              sx={{ color: "#003566", textTransform: "none" }}
+              sx={{ color: "#333", textTransform: "none" }}
               aria-controls="basic-menu"
               aria-haspopup="true"
               aria-expanded={megaMenuOpen ? "true" : undefined}
@@ -180,7 +181,8 @@ export default function Nav({ ...props }) {
                   width: "calc(100vw - 32px)",
                   maxWidth: "1200px",
                   transform: "translateX(calc(50vw - 50% - 16px))",
-                  background: "#FFD60A",
+                  background: "#333",
+                  borderRadius: "25px",
                 },
               }}
               TransitionComponent={Fade}
@@ -209,7 +211,7 @@ export default function Nav({ ...props }) {
               >
                 {props.categories?.map((category) => (
                   <Box key={category.id} sx={{ mx: 2 }}>
-                    <Link
+                    <NextLink
                       href={{
                         pathname: `/${
                           category.url_key + props.categoryUrlSuffix
@@ -219,9 +221,10 @@ export default function Nav({ ...props }) {
                         },
                       }}
                       as={`/${category.url_key + props.categoryUrlSuffix}`}
+                      passHref
                     >
-                      <a onClick={megaMenuHandleClose}>{category.name}</a>
-                    </Link>
+                      <Link color="#fff" onClick={megaMenuHandleClose}>{category.name}</Link>
+                    </NextLink>
                   </Box>
                 ))}
               </Box>
@@ -288,8 +291,8 @@ export default function Nav({ ...props }) {
           </Box>
           <Box sx={{ order: { xs: 2, sm: 3 }, whiteSpace: "nowrap" }}>
             <ClientOnly>
-              <Link href="/checkout">
-                <a>
+              <NextLink href="/checkout" passHref>
+                <Link>
                   <IconButton
                     size="large"
                     sx={{ p: "8px" }}
@@ -298,7 +301,7 @@ export default function Nav({ ...props }) {
                     {mainData?.cartItems ? (
                       <Badge
                         badgeContent={mainData.cartItems}
-                        color="secondary"
+                        color="primary"
                       >
                         <ShoppingBagIcon
                           color="primary"
@@ -312,8 +315,8 @@ export default function Nav({ ...props }) {
                       />
                     )}
                   </IconButton>
-                </a>
-              </Link>
+                </Link>
+              </NextLink>
             </ClientOnly>
             <IconButton
               size="large"
@@ -355,7 +358,7 @@ export default function Nav({ ...props }) {
                 {props.categories?.map((category) => (
                   <ListItem key={category.id}>
                     <ListItemText>
-                      <Link
+                      <NextLink
                         href={{
                           pathname: `/${
                             category.url_key + props.categoryUrlSuffix
@@ -365,9 +368,10 @@ export default function Nav({ ...props }) {
                           },
                         }}
                         as={`/${category.url_key + props.categoryUrlSuffix}`}
+                        passHref
                       >
-                        <a>{category.name}</a>
-                      </Link>
+                        <Link>{category.name}</Link>
+                      </NextLink>
                     </ListItemText>
                   </ListItem>
                 ))}

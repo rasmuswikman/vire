@@ -69,7 +69,7 @@ export default function Products({ search, filters, pageSize }) {
             xs: 1,
             sm: 2,
             md: 3,
-            lg: 4,
+            lg: 2,
           },
           gridTemplateColumns: {
             xs: "repeat(2, 1fr)",
@@ -80,7 +80,7 @@ export default function Products({ search, filters, pageSize }) {
         }}
       >
         {products.map((product) => (
-          <Card key={product.id} variant="outlined">
+          <Card key={product.id} variant="outlined" sx={{ pb: 2 }}>
             <Link
               href={{
                 pathname: `/${product.url_key + productUrlSuffix}`,
@@ -92,7 +92,7 @@ export default function Products({ search, filters, pageSize }) {
               passHref={true}
             >
               <CardActionArea>
-                <CardMedia>
+                <CardMedia sx={{ p: 3, pb: 1 }}>
                   <div
                     style={{
                       position: "relative",
@@ -111,7 +111,7 @@ export default function Products({ search, filters, pageSize }) {
               </CardActionArea>
             </Link>
             <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography gutterBottom variant="h5" component="h4">
                 {product.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
