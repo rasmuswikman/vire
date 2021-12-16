@@ -9,6 +9,10 @@ import NextNProgress from "nextjs-progressbar";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import NextLink from "next/link";
 
+const globalStyles = <GlobalStyles styles={(theme) => ({
+  body: { backgroundColor: theme.palette.primary.ultralight },
+})} />
+
 export default function App({ children }) {
   const { data } = useQuery(APP_QUERY);
   const store = data?.storeConfig;
@@ -17,11 +21,7 @@ export default function App({ children }) {
 
   return (
     <>
-      <GlobalStyles
-        styles={(theme) => ({
-          body: { backgroundColor: "#fafafa" },
-        })}
-      />
+      {globalStyles}
       <Head>
         <title>Vire{/*store?.default_title*/}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -36,7 +36,6 @@ export default function App({ children }) {
       <Box sx={{ background: "#fff", minHeight: "50vh" }}>{children}</Box>
       <Box
         sx={{
-          background: "#fafafa",
           textAlign: "center",
           pt: 6,
           pb: 15,
@@ -44,8 +43,8 @@ export default function App({ children }) {
         }}
       >
         <NextLink href="https://fi.wiktionary.org/wiki/vire" passHref>
-          <Link>Vire sai aikaan väreitä veden pintaan.</Link>
-        </NextLink>
+          <Link>Vire</Link>
+        </NextLink> sai aikaan väreitä veden pintaan.
       </Box>
     </>
   );

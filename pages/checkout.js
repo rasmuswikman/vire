@@ -30,8 +30,24 @@ const Cart = () => {
     setHasMounted(true);
   }, []);
 
-  if (!hasMounted) return null;
-  if (loading && !data) return <Loading />;
+  const createAndSubmitForm = (url, parameters) => {
+    const form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = url;
+
+    Object.entries(parameters).map(([key, value], index) => {
+      let el = document.createElement("input");
+      el.name = key;
+      el.value = value;
+      form.appendChild(el);
+      return;
+    });
+
+    document.body.appendChild(form);
+
+    form.submit();
+  };
 
   const onChangeVariables = (event) => {
     const obj = {};
@@ -57,27 +73,27 @@ const Cart = () => {
         country_code: "FI",
         carrier_code: "flatrate",
         method_code: "flatrate",
-        payment_method_code: "checkmo",
+        payment_method_code: "paytrail",
       },
     });
     setMainData({});
-    setOrderNumber(data.placeOrder.order.order_number);
     setLoadingCheckout(false);
+    createAndSubmitForm(
+      data.placeOrder.payment_provider_url,
+      JSON.parse(data.placeOrder.payment_provider_parameters)
+    );
   };
+
+  if (!hasMounted) return null;
+  if (loading && !data) return <Loading />;
 
   return (
     <Box
       sx={{
         background: "#fff",
-        maxWidth: "1200px",
-        marginLeft: "auto",
-        marginRight: "auto",
-        padding: {
-          xs: "210px 20px 100px 20px",
-          sm: "210px 25px 100px 25px",
-          md: "210px 30px 100px 30px",
-          lg: "210px 40px 100px 40px",
-        },
+        maxWidth: "lg",
+        mx: "auto",
+        py: 5,
       }}
     >
       {orderNumber ? (
@@ -90,16 +106,15 @@ const Cart = () => {
           </Typography>
         </Box>
       ) : data ? (
-        <>
+        <Box sx={{ displa: "flex" }}>
           <Grid
             container
             direction="row"
             justifyContent="center"
             alignItems="flex-start"
-            spacing={8}
-            sx={{ mt: "-100px" }}
+            spacing={5}
           >
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="h5">
                 Shopping bag
               </Typography>
@@ -109,7 +124,7 @@ const Cart = () => {
                 </div>
               ))}
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="h5">
                 Contact details
               </Typography>
@@ -142,11 +157,11 @@ const Cart = () => {
               />
               ...
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="h5">
                 Shipping & payment
               </Typography>
-              ...
+              <Box>Paytrail with Nordea</Box>
             </Grid>
           </Grid>
           <Box sx={{ mt: 10, textAlign: "center" }}>
@@ -160,7 +175,7 @@ const Cart = () => {
               Place order
             </LoadingButton>
           </Box>
-        </>
+        </Box>
       ) : (
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h5">Your shopping bag is empty.</Typography>

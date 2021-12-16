@@ -99,12 +99,22 @@ mutation SetBillingAddressOnCart(
       selected_payment_method {
         code
       }
+      payment_providers {
+        id
+        name
+        svg
+        icon
+        group
+      }
     }
   }
 
-  placeOrder(input: { cart_id: $cartId }) {
+
+  placeOrder(input: { cart_id: $cartId, payment_provider_id: "nordea" }) {
     order {
       order_number
     }
+    payment_provider_url
+    payment_provider_parameters
   }
 }

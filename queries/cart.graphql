@@ -23,5 +23,13 @@ query Cart($cartId: String!) {
         }
       }
     }
+    available_payment_methods {
+      code
+      title
+    }
+    selected_payment_method {
+      code
+      title
+    }
   }
 }

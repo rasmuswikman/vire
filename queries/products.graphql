@@ -3,8 +3,8 @@
 query ProductsQuery(
   $search: String
   $filters: ProductAttributeFilterInput
-  $pageSize: Int = 12
-  $currentPage: Int = 1
+  $pageSize: Int = 9
+  $page: Int = 1
 ) {
   storeConfig {
     id
@@ -15,25 +15,25 @@ query ProductsQuery(
     search: $search
     filter: $filters
     pageSize: $pageSize
-    currentPage: $currentPage
+    currentPage: $page
   ) {
+    aggregations {
+      attribute_code
+    }
     page_info {
       current_page
       total_pages
     }
-
     items {
       id
       url_key
       name
       sku
-
       thumbnail {
         id: url
         url
         label
       }
-
       price_range {
         ...price_range
       }

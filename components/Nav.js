@@ -2,10 +2,8 @@ import React from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -28,6 +26,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
+import { useTheme } from "@mui/material/styles";
 
 function ClientOnly({ children }) {
   const [hasMounted, setHasMounted] = React.useState(false);
@@ -50,6 +49,7 @@ export default function Nav({ ...props }) {
     setDrawer(value);
   };
 
+  const theme = useTheme();
   const client = useApolloClient();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -111,275 +111,244 @@ export default function Nav({ ...props }) {
   };
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={0}
+    <Box
       sx={{
-        background: "rgba(255, 255, 255, 0.9)",
-        color: "#000",
-        padding: {
-          xs: "25px 20px 20px 20px",
-          sm: "25px 25px 20px 25px",
-          md: "25px 30px 20px 30px",
-          lg: "25px 40px 20px 40px",
+        maxWidth: "lg",
+        width: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexFlow: { xs: "row wrap", sm: "row" },
+        py: {
+          sm: 1,
+          lg: 4,
         },
-        backdropFilter: "blur(10px)",
-        borderBottom: "2px solid #fafafa"
       }}
     >
-      <Toolbar sx={{ mr: { xs: 0, sm: -1 } }} disableGutters>
-        <Box
-          sx={{
-            maxWidth: "1200px",
-            width: "100%",
-            marginLeft: "auto",
-            marginRight: "auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexFlow: { xs: "row wrap", sm: "row" },
-            padding: {
-              xs: "0 20px 0 20px",
-              sm: "0 25px 0 25px",
-              md: "0 30px 0 30px",
-              lg: "0 40px 0 40px",
+      <Box sx={{ flexGrow: { xs: 1, sm: 0 }, order: { xs: 0, sm: 0 } }}>
+        <NextLink href="/" passHref>
+          <Link>
+            <Image src="/logo.svg" alt="Store logo" width={120} height={37} />
+          </Link>
+        </NextLink>
+      </Box>
+      <Box
+        sx={{
+          ml: 4,
+          flexGrow: { xs: 1, sm: 0 },
+          order: { xs: 1, sm: 1 },
+          display: { xs: "none", sm: "block" },
+        }}
+      >
+        <Button
+          sx={{ color: "primary.main", textTransform: "none" }}
+          aria-controls="basic-menu"
+          aria-haspopup="true"
+          aria-expanded={megaMenuOpen ? "true" : undefined}
+          onClick={megaMenuHandleClick}
+        >
+          <strong>Products</strong>
+        </Button>
+        <Menu
+          PaperProps={{
+            style: {
+              width: `calc(100vw - ${theme.spacing(4)})`,
+              maxWidth: theme.breakpoints.values.lg,
+              transform: `translateX(calc(50vw - 50% - ${theme.spacing(2)}))`,
+              background: theme.palette.primary.main,
+              borderRadius: theme.shape.borderRadius,
             },
           }}
+          TransitionComponent={Fade}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          anchorEl={megaMenuAnchorEl}
+          open={megaMenuOpen}
+          onClose={megaMenuHandleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
         >
-          <Box sx={{ flexGrow: { xs: 1, sm: 0 }, order: { xs: 0, sm: 0 } }}>
-            <NextLink href="/" passHref>
-              <Link>
-                <Image
-                  src="/logo.svg"
-                  alt="Store logo"
-                  width={120}
-                  height={37}
-                />
-              </Link>
-            </NextLink>
-          </Box>
           <Box
             sx={{
-              ml: 4,
-              flexGrow: { xs: 1, sm: 0 },
-              order: { xs: 1, sm: 1 },
-              display: { xs: "none", sm: "block" },
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              p: 5,
             }}
           >
-            <Button
-              sx={{ color: "#333", textTransform: "none" }}
-              aria-controls="basic-menu"
-              aria-haspopup="true"
-              aria-expanded={megaMenuOpen ? "true" : undefined}
-              onClick={megaMenuHandleClick}
-            >
-              <strong>Products</strong>
-            </Button>
-            <Menu
-              PaperProps={{
-                style: {
-                  width: "calc(100vw - 32px)",
-                  maxWidth: "1200px",
-                  transform: "translateX(calc(50vw - 50% - 16px))",
-                  background: "#333",
-                  borderRadius: "25px",
-                },
-              }}
-              TransitionComponent={Fade}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              anchorEl={megaMenuAnchorEl}
-              open={megaMenuOpen}
-              onClose={megaMenuHandleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  p: 5,
-                }}
-              >
-                {props.categories?.map((category) => (
-                  <Box key={category.id} sx={{ mx: 2 }}>
-                    <NextLink
-                      href={{
-                        pathname: `/${
-                          category.url_key + props.categoryUrlSuffix
-                        }`,
-                        query: {
-                          type: "CATEGORY",
-                        },
-                      }}
-                      as={`/${category.url_key + props.categoryUrlSuffix}`}
-                      passHref
-                    >
-                      <Link color="#fff" onClick={megaMenuHandleClose}>{category.name}</Link>
-                    </NextLink>
-                  </Box>
-                ))}
-              </Box>
-            </Menu>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              flexBasis: "350px",
-              mx: { xs: 0, sm: 6 },
-              mt: { xs: 2, sm: 0 },
-              order: { xs: 3, sm: 2 },
-            }}
-          >
-            <Autocomplete
-              value={value}
-              inputValue={inputValue}
-              open={open}
-              onClose={() => {
-                setOpen(false);
-              }}
-              onChange={(value, option) => {
-                clearSearch(option);
-              }}
-              isOptionEqualToValue={(option, value) =>
-                option.name === value.name
-              }
-              getOptionLabel={(option) => option.name}
-              renderOption={(props, option) => (
-                <Box sx={{ display: "flex" }} {...props}>
-                  <Image
-                    src={option.thumbnail.url}
-                    width={62}
-                    height={77}
-                    alt={option.thumbnail.label}
-                  />
-                  <Box sx={{ ml: 2 }}>
-                    <Typography variant="h6">{option.name}</Typography>
-                    <Price {...option.price_range} />
-                  </Box>
-                </Box>
-              )}
-              options={options}
-              loading={loading}
-              renderInput={(params) => (
-                <TextField
-                  onChange={(event) => {
-                    handleInput(event);
-                    setInputValue(event.target.value);
+            {props.categories?.map((category) => (
+              <Box key={category.id} sx={{ mx: 2 }}>
+                <NextLink
+                  href={{
+                    pathname: `/${category.url_key + props.categoryUrlSuffix}`,
+                    query: {
+                      type: "CATEGORY",
+                    },
                   }}
-                  {...params}
-                  placeholder="What are you looking for?"
-                  InputProps={{
-                    ...params.InputProps,
-                    style: { paddingLeft: "24px" },
-                    endAdornment: loading && (
-                      <CircularProgress color="inherit" size={20} />
-                    ),
-                    startAdornment: <SearchIcon sx={{ mr: 1 }} />,
-                  }}
-                />
-              )}
-            />
-          </Box>
-          <Box sx={{ order: { xs: 2, sm: 3 }, whiteSpace: "nowrap" }}>
-            <ClientOnly>
-              <NextLink href="/checkout" passHref>
-                <Link>
-                  <IconButton
-                    size="large"
-                    sx={{ p: "8px" }}
-                    aria-label="Go to shopping bag"
+                  as={`/${category.url_key + props.categoryUrlSuffix}`}
+                  passHref
+                >
+                  <Link
+                    color={theme.palette.primary.light}
+                    onClick={megaMenuHandleClose}
                   >
-                    {mainData?.cartItems ? (
-                      <Badge
-                        badgeContent={mainData.cartItems}
-                        color="primary"
-                      >
-                        <ShoppingBagIcon
-                          color="primary"
-                          sx={{ fontSize: "26px" }}
-                        />
-                      </Badge>
-                    ) : (
-                      <ShoppingBagIcon
-                        color="primary"
-                        sx={{ fontSize: "26px" }}
-                      />
-                    )}
-                  </IconButton>
-                </Link>
-              </NextLink>
-            </ClientOnly>
-            <IconButton
-              size="large"
-              sx={{ p: "8px" }}
-              onClick={() => toggleDrawer(true)}
-              aria-label="Show menu"
-            >
-              <MenuIcon color="primary" sx={{ fontSize: "26px" }} />
-            </IconButton>
+                    {category.name}
+                  </Link>
+                </NextLink>
+              </Box>
+            ))}
           </Box>
-          <Drawer
-            anchor="left"
-            open={drawer}
-            onClose={() => toggleDrawer(false)}
-            ModalProps={{
-              BackdropComponent: styled(Backdrop, {
-                name: "MuiModal",
-                slot: "Backdrop",
-                overridesResolver: (props, styles) => {
-                  return styles.backdrop;
-                },
-              })({
-                background: "rgba(0, 0, 0, .02)",
-                backdropFilter: "blur(5px)",
-              }),
-            }}
-          >
-            <Box
-              sx={{
-                height: "100vh",
-                p: 3,
-                width: 320,
-              }}
-              role="presentation"
-              onClick={() => toggleDrawer(false)}
-              onKeyDown={() => toggleDrawer(false)}
-            >
-              <List>
-                {props.categories?.map((category) => (
-                  <ListItem key={category.id}>
-                    <ListItemText>
-                      <NextLink
-                        href={{
-                          pathname: `/${
-                            category.url_key + props.categoryUrlSuffix
-                          }`,
-                          query: {
-                            type: "CATEGORY",
-                          },
-                        }}
-                        as={`/${category.url_key + props.categoryUrlSuffix}`}
-                        passHref
-                      >
-                        <Link>{category.name}</Link>
-                      </NextLink>
-                    </ListItemText>
-                  </ListItem>
-                ))}
-              </List>
+        </Menu>
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          flexBasis: "350px",
+          mx: { xs: 0, sm: 6 },
+          mt: { xs: 2, sm: 0 },
+          order: { xs: 3, sm: 2 },
+        }}
+      >
+        <Autocomplete
+          value={value}
+          inputValue={inputValue}
+          open={open}
+          onClose={() => {
+            setOpen(false);
+          }}
+          onChange={(value, option) => {
+            clearSearch(option);
+          }}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          getOptionLabel={(option) => option.name}
+          renderOption={(props, option) => (
+            <Box sx={{ display: "flex" }} {...props}>
+              <Image
+                src={option.thumbnail.url}
+                width={62}
+                height={77}
+                alt={option.thumbnail.label}
+              />
+              <Box sx={{ ml: 2 }}>
+                <Typography variant="h6">{option.name}</Typography>
+                <Price {...option.price_range} />
+              </Box>
             </Box>
-          </Drawer>
+          )}
+          options={options}
+          loading={loading}
+          renderInput={(params) => (
+            <TextField
+              onChange={(event) => {
+                handleInput(event);
+                setInputValue(event.target.value);
+              }}
+              {...params}
+              placeholder="What are you looking for?"
+              InputProps={{
+                ...params.InputProps,
+                style: { paddingLeft: "24px" },
+                endAdornment: loading && (
+                  <CircularProgress color="inherit" size={20} />
+                ),
+                startAdornment: <SearchIcon sx={{ mr: 1 }} />,
+              }}
+            />
+          )}
+        />
+      </Box>
+      <Box sx={{ order: { xs: 2, sm: 3 }, whiteSpace: "nowrap" }}>
+        <ClientOnly>
+          <NextLink href="/checkout" passHref>
+            <Link>
+              <IconButton
+                size="large"
+                sx={{ p: 1 }}
+                aria-label="Go to shopping bag"
+              >
+                {mainData?.cartItems ? (
+                  <Badge badgeContent={mainData.cartItems} color="primary">
+                    <ShoppingBagIcon
+                      color="primary"
+                      sx={{ fontSize: "26px" }}
+                    />
+                  </Badge>
+                ) : (
+                  <ShoppingBagIcon color="primary" sx={{ fontSize: "26px" }} />
+                )}
+              </IconButton>
+            </Link>
+          </NextLink>
+        </ClientOnly>
+        <IconButton
+          size="large"
+          sx={{ p: 1 }}
+          onClick={() => toggleDrawer(true)}
+          aria-label="Show menu"
+        >
+          <MenuIcon color="primary" sx={{ fontSize: "26px" }} />
+        </IconButton>
+      </Box>
+      <Drawer
+        anchor="left"
+        open={drawer}
+        onClose={() => toggleDrawer(false)}
+        ModalProps={{
+          BackdropComponent: styled(Backdrop, {
+            name: "MuiModal",
+            slot: "Backdrop",
+            overridesResolver: (props, styles) => {
+              return styles.backdrop;
+            },
+          })({
+            background: "rgba(0, 0, 0, .02)",
+            backdropFilter: "blur(5px)",
+          }),
+        }}
+      >
+        <Box
+          sx={{
+            height: "100vh",
+            p: 3,
+            width: 320,
+          }}
+          role="presentation"
+          onClick={() => toggleDrawer(false)}
+          onKeyDown={() => toggleDrawer(false)}
+        >
+          <List>
+            {props.categories?.map((category) => (
+              <ListItem key={category.id}>
+                <ListItemText>
+                  <NextLink
+                    href={{
+                      pathname: `/${
+                        category.url_key + props.categoryUrlSuffix
+                      }`,
+                      query: {
+                        type: "CATEGORY",
+                      },
+                    }}
+                    as={`/${category.url_key + props.categoryUrlSuffix}`}
+                    passHref
+                  >
+                    <Link>{category.name}</Link>
+                  </NextLink>
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
         </Box>
-      </Toolbar>
-    </AppBar>
+      </Drawer>
+    </Box>
   );
 }

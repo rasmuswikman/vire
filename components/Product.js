@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import productQuery from "../queries/product.graphql";
+import routeQuery from "../queries/route.graphql";
 import Price from "./Price";
 import Head from "next/head";
 import Image from "next/image";
@@ -11,9 +11,9 @@ import useAddToCart from "../lib/useAddToCart";
 import Loading from "../components/Loading";
 import Typography from "@mui/material/Typography";
 
-export default function Product({ filters }) {
-  const { loading, data } = useQuery(productQuery, { variables: { filters } });
-  const product = data?.products.items[0];
+export default function Product({ url }) {
+  const { loading, data } = useQuery(routeQuery, { variables: { url } });
+  const product = data?.route;
   const [loadingCart, setLoadingCart] = React.useState(false);
 
   const { addToCart } = useAddToCart();
@@ -32,7 +32,7 @@ export default function Product({ filters }) {
       </Head>
       <Grid
         container
-        spacing={10}
+        spacing={0}
         direction="row"
         justifyContent="center"
         alignItems="center"
