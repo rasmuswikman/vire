@@ -1,0 +1,26 @@
+query Category($filters: CategoryFilterInput!) {
+  storeConfig {
+    product_url_suffix
+    category_url_suffix
+    default_title
+    copyright
+  }
+
+  categoryList(filters: $filters) {
+    id
+    name
+    display_mode
+
+    children {
+      id
+      url_path
+      name
+    }
+
+    breadcrumbs {
+      id: category_id
+      category_url_path
+      category_name
+    }
+  }
+}

@@ -1,9 +1,3 @@
-# Vire
+# Vire Storefront
 
-## 0.0.1
-
-- Navigation
-- Search
-- Category and product listning
-- Adding simple products to guest cart
-- Place order
+Vire is a concept storefront built with [MUI](https://www.mui.com/) and [Next.js](https://nextjs.org/) on the [Adobe Commerce](https://magento.com/) GraphQL API.

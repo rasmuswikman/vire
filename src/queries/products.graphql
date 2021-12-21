@@ -1,0 +1,46 @@
+#import "./_priceRange.graphql"
+
+query Products(
+  $search: String
+  $filters: ProductAttributeFilterInput
+  $pageSize: Int = 9
+  $page: Int = 1
+) {
+  products(
+    search: $search
+    filter: $filters
+    pageSize: $pageSize
+    currentPage: $page
+  ) {
+    aggregations {
+      attribute_code
+      count
+      label
+      options {
+        count
+        label
+        value
+      }
+      position
+    }
+    page_info {
+      current_page
+      total_pages
+    }
+    items {
+      id: uid
+      uid
+      url_key
+      name
+      sku
+      thumbnail {
+        id: url
+        url
+        label
+      }
+      price_range {
+        ...priceRange
+      }
+    }
+  }
+}

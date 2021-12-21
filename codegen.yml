@@ -1,0 +1,12 @@
+schema:
+  - https://m.rasmuswikman.com/graphql
+documents: './src/queries/*.graphql'
+generates:
+  ./generated/generated-types.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    hooks:
+      afterOneFileWrite:
+        - prettier --write

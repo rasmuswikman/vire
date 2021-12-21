@@ -1,0 +1,17 @@
+#import "./_categoryChildren.graphql"
+
+query App {
+  storeConfig {
+    product_url_suffix
+    category_url_suffix
+    default_title
+    copyright
+  }
+
+  categoryList {
+    id: uid
+    children {
+      ...categoryChildren
+    }
+  }
+}

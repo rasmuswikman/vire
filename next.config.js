@@ -1,25 +1,15 @@
-const withPWA = require("next-pwa");
-const runtimeCaching = require("next-pwa/cache");
-
-module.exports = withPWA({
+/** @type {import('next').NextConfig} */
+module.exports = {
   reactStrictMode: true,
-  pwa: {
-    dest: "public",
-    runtimeCaching,
-    mode: "production",
-    register: true,
-    buildExcludes: [/middleware-manifest\.json$/],
-    disable: process.env.NODE_ENV === "development",
-  },
   images: {
-    domains: [new URL(process.env.NEXT_PUBLIC_MAGENTO_URL).hostname],
+    domains: [new URL(process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).hostname],
   },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
-      loader: "graphql-tag/loader",
-    });
+      loader: 'graphql-tag/loader',
+    })
 
-    return config;
+    return config
   },
-});
+}

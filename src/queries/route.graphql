@@ -1,0 +1,55 @@
+#import "./_productBundle.graphql"
+#import "./_productConfigurable.graphql"
+#import "./_productDownloadable.graphql"
+#import "./_productGrouped.graphql"
+#import "./_productSimple.graphql"
+#import "./_productVirtual.graphql"
+
+query Route($url: String!) {
+  storeConfig {
+    product_url_suffix
+    category_url_suffix
+    default_title
+    copyright
+  }
+
+  route(url: $url) {
+    type
+    ... on CategoryTree {
+      id: uid
+      uid
+      url_key
+      url_path
+      name
+      breadcrumbs {
+        id: category_id
+        category_url_path
+        category_name
+      }
+      children {
+        id: uid
+        uid
+        url_key
+        url_path
+        name
+      }
+    }
+    ... on CmsPage {
+      content
+      content_heading
+      meta_title
+      meta_keywords
+      meta_description
+      page_layout
+      identifier
+      title
+      url_key
+    }
+    ...productBundle
+    ...productConfigurable
+    ...productDownloadable
+    ...productGrouped
+    ...productSimple
+    ...productVirtual
+  }
+}

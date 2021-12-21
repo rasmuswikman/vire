@@ -1,0 +1,27 @@
+#import "./_priceRange.graphql"
+
+fragment productBundle on BundleProduct {
+  id: uid
+  uid
+  sku
+  url_key
+  url_suffix
+  name
+  description {
+    html
+  }
+  thumbnail {
+    id: url
+    url
+    label
+  }
+  media_gallery {
+    id: url
+    label
+    url
+    type: __typename
+  }
+  price_range {
+    ...priceRange
+  }
+}
