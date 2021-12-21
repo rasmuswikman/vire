@@ -57,6 +57,11 @@ const Cart = () => {
     const { data } = await client.query({
       query: SetBillingAddressOnCartDocument,
       fetchPolicy: 'no-cache',
+      context: {
+        fetchOptions: {
+          method: 'POST',
+        },
+      },
       variables: {
         cartId,
         email: variables.email,
