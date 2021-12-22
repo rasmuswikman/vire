@@ -88,103 +88,111 @@ const Cart = () => {
   return (
     <Box
       sx={{
-        background: '#fff',
-        maxWidth: 'lg',
-        mx: 'auto',
-        py: 10,
+        width: '100%',
+        borderTop: `1px solid #f1f1f1`,
       }}
     >
-      {orderNumber ? (
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography gutterBottom variant="h5">
-            Thank you for your order!
-          </Typography>
-          <Typography variant="subtitle1">Order number: {orderNumber}</Typography>
-        </Box>
-      ) : data ? (
-        <Box sx={{ display: 'flex' }}>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-start"
-            spacing={5}
-          >
-            <Grid item md={4}>
-              <Typography gutterBottom variant="h5">
-                Shopping bag
-              </Typography>
-              {data.cart?.items &&
-                data.cart.items.map(
-                  (item) =>
-                    item && (
-                      <div key={item.id}>
-                        {`${item.quantity} x ${item.product.name} - ${
-                          item.prices?.price.value ?? null
-                        }`}
-                      </div>
-                    ),
-                )}
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 'lg',
+          mx: 'auto',
+          pt: 6,
+          pb: 15,
+        }}
+      >
+        {orderNumber ? (
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography gutterBottom variant="h5">
+              Thank you for your order!
+            </Typography>
+            <Typography variant="subtitle1">Order number: {orderNumber}</Typography>
+          </Box>
+        ) : data ? (
+          <Box sx={{ display: 'flex' }}>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={5}
+            >
+              <Grid item md={4}>
+                <Typography gutterBottom variant="h5">
+                  Shopping bag
+                </Typography>
+                {data.cart?.items &&
+                  data.cart.items.map(
+                    (item) =>
+                      item && (
+                        <div key={item.id}>
+                          {`${item.quantity} x ${item.product.name} - ${
+                            item.prices?.price.value ?? null
+                          }`}
+                        </div>
+                      ),
+                  )}
+              </Grid>
+              <Grid item md={4}>
+                <Typography gutterBottom variant="h5">
+                  Contact details
+                </Typography>
+                <TextField
+                  size="small"
+                  sx={{ mt: 1, width: '100%' }}
+                  onChange={(event) => onChangeVariables(event)}
+                  name="email"
+                  placeholder="E-mail"
+                  defaultValue="firstname.lastname@example.com"
+                  required={true}
+                />
+                <TextField
+                  size="small"
+                  sx={{ mt: 1, width: '100%' }}
+                  onChange={(event) => onChangeVariables(event)}
+                  name="firstname"
+                  placeholder="Firstname"
+                  defaultValue="Firstname"
+                  required={true}
+                />
+                <TextField
+                  size="small"
+                  sx={{ mt: 1, width: '100%' }}
+                  onChange={(event) => onChangeVariables(event)}
+                  name="lastname"
+                  placeholder="Lastname"
+                  defaultValue="Lastname"
+                  required={true}
+                />
+                ...
+              </Grid>
+              <Grid item md={4}>
+                <Typography gutterBottom variant="h5">
+                  Shipping & payment
+                </Typography>
+                <Box>Checkmo</Box>
+              </Grid>
+              <Grid item md={12}>
+                <Box sx={{ mt: 10, textAlign: 'center' }}>
+                  <LoadingButton
+                    onClick={checkout}
+                    size="large"
+                    variant="contained"
+                    disableElevation
+                    loading={loadingCheckout}
+                  >
+                    Place order
+                  </LoadingButton>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item md={4}>
-              <Typography gutterBottom variant="h5">
-                Contact details
-              </Typography>
-              <TextField
-                size="small"
-                sx={{ mt: 1, width: '100%' }}
-                onChange={(event) => onChangeVariables(event)}
-                name="email"
-                placeholder="E-mail"
-                defaultValue="firstname.lastname@example.com"
-                required={true}
-              />
-              <TextField
-                size="small"
-                sx={{ mt: 1, width: '100%' }}
-                onChange={(event) => onChangeVariables(event)}
-                name="firstname"
-                placeholder="Firstname"
-                defaultValue="Firstname"
-                required={true}
-              />
-              <TextField
-                size="small"
-                sx={{ mt: 1, width: '100%' }}
-                onChange={(event) => onChangeVariables(event)}
-                name="lastname"
-                placeholder="Lastname"
-                defaultValue="Lastname"
-                required={true}
-              />
-              ...
-            </Grid>
-            <Grid item md={4}>
-              <Typography gutterBottom variant="h5">
-                Shipping & payment
-              </Typography>
-              <Box>Checkmo</Box>
-            </Grid>
-            <Grid item md={12}>
-              <Box sx={{ mt: 10, textAlign: 'center' }}>
-                <LoadingButton
-                  onClick={checkout}
-                  size="large"
-                  variant="contained"
-                  disableElevation
-                  loading={loadingCheckout}
-                >
-                  Place order
-                </LoadingButton>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-      ) : (
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h5">Your shopping bag is empty.</Typography>
-        </Box>
-      )}
+          </Box>
+        ) : (
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h5">Your shopping bag is empty.</Typography>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

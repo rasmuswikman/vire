@@ -4,7 +4,12 @@ import {
   ProductsDocument,
   ProductsQuery,
   ProductsQueryVariables,
-  ProductItemsFragment,
+  ProductBundleFragment,
+  ProductConfigurableFragment,
+  ProductDownloadableFragment,
+  ProductGroupedFragment,
+  ProductSimpleFragment,
+  ProductVirtualFragment,
 } from '../../../generated/generated-types';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -28,11 +33,30 @@ export default function Search(props: Props) {
   const [inputValue, setInputValue] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<
-    Array<ProductItemsFragment | null | undefined>
+    Array<
+      | ProductBundleFragment
+      | ProductConfigurableFragment
+      | ProductDownloadableFragment
+      | ProductGroupedFragment
+      | ProductSimpleFragment
+      | ProductVirtualFragment
+      | null
+      | undefined
+    >
   >([]);
   const loading = open && options?.length === 0;
 
-  const clearSearch = (option: ProductItemsFragment | null | undefined) => {
+  const clearSearch = (
+    option:
+      | ProductBundleFragment
+      | ProductConfigurableFragment
+      | ProductDownloadableFragment
+      | ProductGroupedFragment
+      | ProductSimpleFragment
+      | ProductVirtualFragment
+      | null
+      | undefined,
+  ) => {
     if (option) {
       router.push(
         {
@@ -131,9 +155,11 @@ export default function Search(props: Props) {
           {...params}
           InputProps={{
             ...params.InputProps,
-            style: { paddingLeft: '24px' },
+            style: { paddingLeft: '16px' },
             endAdornment: loading && <CircularProgress color="inherit" size={20} />,
             startAdornment: <SearchIcon sx={{ mr: 1 }} />,
+            size: 'small',
+            sx: { fontSize: '0.9rem' },
           }}
         />
       )}

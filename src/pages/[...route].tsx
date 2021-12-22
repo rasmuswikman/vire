@@ -2,22 +2,26 @@ import React from 'react';
 import Error from 'next/error';
 import { GetServerSideProps } from 'next';
 import { initializeApollo } from '../lib/apolloClient';
-import type { NormalizedCacheObject } from '@apollo/client';
 import {
   AppDocument,
-  ProductsDocument,
+  AppQuery,
+  AppQueryVariables,
   RouteDocument,
+  RouteQuery,
+  RouteQueryVariables,
+  ProductsDocument,
+  ProductsQuery,
+  ProductsQueryVariables,
 } from '../../generated/generated-types';
 import Box from '@mui/material/Box';
-import Category from '../components/Category';
-import Product from '../components/Product';
+import Category from '../components/category/Category';
+import Product from '../components/product/Product';
 
 type Props = {
   type: string;
   url: string;
   page: number;
-  uid: string;
-  initialApolloState: NormalizedCacheObject | undefined;
+  id: string;
 };
 
 const renderSwitch = (props: Props) => {
@@ -38,7 +42,26 @@ const renderSwitch = (props: Props) => {
 };
 
 export default function URLResolver(props: Props) {
-  return <Box sx={{ maxWidth: 'lg', mx: 'auto', py: 2 }}>{renderSwitch(props)}</Box>;
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        borderTop: `1px solid #f1f1f1`,
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 'lg',
+          mx: 'auto',
+          pt: 3,
+          pb: 5,
+        }}
+      >
+        {renderSwitch(props)}
+      </Box>
+    </Box>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -49,9 +72,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const apolloClient = initializeApollo();
     const url = resolvedUrl.replace('/', '');
-    const page = query.page ?? 1;
+    const page = typeof query.page === 'string' ? parseInt(query.page) : 1;
 
-    const { data } = await apolloClient.query({
+    const { data } = await apolloClient.query<RouteQuery, RouteQueryVariables>({
       query: RouteDocument,
       variables: { url },
     });
@@ -61,13 +84,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return { props: { type: '404' } };
     }
 
+    // eslint-disable-next-line
+    // @ts-ignore: Type CmsPage does not have an id of Scalars['ID']
+    const id = data.route?.id ?? null;
+
     if (req) {
-      await apolloClient.query({ query: AppDocument });
+      await apolloClient.query<AppQuery, AppQueryVariables>({ query: AppDocument });
 
       if (data.route.type === 'CATEGORY') {
-        await apolloClient.query({
+        await apolloClient.query<ProductsQuery, ProductsQueryVariables>({
           query: ProductsDocument,
-          variables: { filters: { category_uid: { eq: data.route.id } }, page },
+          variables: { filters: { category_uid: { eq: id } }, page },
         });
       }
     }
@@ -77,7 +104,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         type: data.route.type,
         url,
         page,
-        uid: typeof data.route.id !== 'undefined' ? data.route.id : null,
+        id,
         initialApolloState: apolloClient.cache.extract(),
       },
     };

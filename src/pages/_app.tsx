@@ -6,8 +6,8 @@ import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import theme from '../lib/theme';
 import createEmotionCache from '../lib/createEmotionCache';
+import theme from '../lib/theme';
 import Layout from '../components/Layout';
 
 const clientSideEmotionCache = createEmotionCache();
@@ -19,6 +19,7 @@ interface MyAppProps extends AppProps {
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const apolloClient = useApollo(pageProps);
+
   return (
     <CookiesProvider>
       <ApolloProvider client={apolloClient}>
@@ -28,7 +29,7 @@ export default function MyApp(props: MyAppProps) {
               <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
             <CssBaseline />
-            <Layout initialApolloState={pageProps.initialApolloState}>
+            <Layout>
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>

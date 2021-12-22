@@ -1,5 +1,5 @@
 import React from 'react';
-import type { CategoryChildrenFragment } from '../../../generated/generated-types';
+import type { CategoryTreeFragment } from '../../../generated/generated-types';
 import { useCookies } from 'react-cookie';
 import NextLink from 'next/link';
 import { styled } from '@mui/material/styles';
@@ -31,7 +31,7 @@ function ClientOnly({ children }: ClientOnlyProps) {
 }
 
 type Props = {
-  categories: Array<CategoryChildrenFragment | null | undefined> | null | undefined;
+  categories: Array<CategoryTreeFragment | null | undefined> | null | undefined;
   categoryUrlSuffix: string;
 };
 
@@ -50,7 +50,7 @@ export default function Icons(props: Props) {
           <Link>
             <IconButton size="large" sx={{ p: 1 }} aria-label="Go to shopping bag">
               {cookies?.cart?.cartItems ? (
-                <Badge badgeContent={cookies.cart.cartItems} color="primary">
+                <Badge badgeContent={cookies.cart.cartItems} color="secondary">
                   <ShoppingBagIcon color="primary" sx={{ fontSize: '26px' }} />
                 </Badge>
               ) : (
@@ -97,7 +97,7 @@ export default function Icons(props: Props) {
         >
           <List>
             {categories?.map(
-              (category: CategoryChildrenFragment | undefined | null) =>
+              (category: CategoryTreeFragment | undefined | null) =>
                 category && (
                   <ListItem key={category.id}>
                     <ListItemText>

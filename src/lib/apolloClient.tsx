@@ -4,8 +4,6 @@ import type { NormalizedCacheObject } from '@apollo/client';
 import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
-export const APOLLO_STATE_PROPERTY_NAME = '__APOLLO_STATE__';
-
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 const createApolloClient = () => {
@@ -74,7 +72,7 @@ export const initializeApollo = (
 };
 
 export function useApollo(pageProps: AppProps['pageProps']) {
-  const state = pageProps[APOLLO_STATE_PROPERTY_NAME];
+  const state = pageProps['initialApolloState'];
   const store = useMemo(() => initializeApollo({ initialState: state }), [state]);
   return store;
 }

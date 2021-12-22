@@ -1,3 +1,5 @@
+#import "./_categoryTree.graphql"
+#import "./_cmsPage.graphql"
 #import "./_productBundle.graphql"
 #import "./_productConfigurable.graphql"
 #import "./_productDownloadable.graphql"
@@ -15,36 +17,8 @@ query Route($url: String!) {
 
   route(url: $url) {
     type
-    ... on CategoryTree {
-      id: uid
-      uid
-      url_key
-      url_path
-      name
-      breadcrumbs {
-        id: category_id
-        category_url_path
-        category_name
-      }
-      children {
-        id: uid
-        uid
-        url_key
-        url_path
-        name
-      }
-    }
-    ... on CmsPage {
-      content
-      content_heading
-      meta_title
-      meta_keywords
-      meta_description
-      page_layout
-      identifier
-      title
-      url_key
-    }
+    ...categoryTree
+    ...cmsPage
     ...productBundle
     ...productConfigurable
     ...productDownloadable

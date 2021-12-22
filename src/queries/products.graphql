@@ -1,4 +1,9 @@
-#import "./_priceRange.graphql"
+#import "./_productBundle.graphql"
+#import "./_productConfigurable.graphql"
+#import "./_productDownloadable.graphql"
+#import "./_productGrouped.graphql"
+#import "./_productSimple.graphql"
+#import "./_productVirtual.graphql"
 
 query Products(
   $search: String
@@ -28,19 +33,12 @@ query Products(
       total_pages
     }
     items {
-      id: uid
-      uid
-      url_key
-      name
-      sku
-      thumbnail {
-        id: url
-        url
-        label
-      }
-      price_range {
-        ...priceRange
-      }
+      ...productBundle
+      ...productConfigurable
+      ...productDownloadable
+      ...productGrouped
+      ...productSimple
+      ...productVirtual
     }
   }
 }

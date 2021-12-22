@@ -3,13 +3,15 @@ import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 const Home: NextPage = () => {
   return (
-    <Box sx={{ bgcolor: '#111' }}>
+    <Box sx={{ bgcolor: '#fafafa', mb: 2, width: '100%' }}>
       <Box
         sx={{
-          py: 19,
+          pt: 19,
+          pb: 16,
           maxWidth: 'lg',
           mx: 'auto',
           textAlign: 'center',
@@ -18,11 +20,12 @@ const Home: NextPage = () => {
         <Typography
           variant="h1"
           sx={{
-            fontWeight: '400',
-            fontSize: '6rem',
+            fontWeight: '500',
+            fontSize: '5.5rem',
+            lineHeight: '5.8rem',
             background: '#fff',
             backgroundImage:
-              'linear-gradient(145deg, rgba(144,97,224,1) 0%, rgba(166,252,252,1) 100%)',
+              'linear-gradient(145deg, rgba(255,122,0,1) 0%, rgba(250,15,0,1) 100%)',
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             letterSpacing: '-5px',
@@ -34,23 +37,34 @@ const Home: NextPage = () => {
         <Typography
           variant="h1"
           sx={{
-            mt: 5,
+            mt: 4,
             fontWeight: '400',
-            fontSize: '3rem',
+            fontSize: '2.3rem',
             letterSpacing: '-1px',
+          }}
+        >
+          ...and a bit of TypeScript.
+        </Typography>
+        <Button
+          sx={{
+            mt: 6,
+            fontWeight: '500',
+            fontSize: '0.9rem',
+            border: '1px solid #111',
           }}
         >
           <NextLink href="https://github.com/rasmuswikman/vire-storefront" passHref>
             <Link
               underline="none"
               sx={{
-                color: '#fff',
+                color: '#111',
+                px: 3,
               }}
             >
-              Version 1
+              Learn more
             </Link>
           </NextLink>
-        </Typography>
+        </Button>
       </Box>
     </Box>
   );

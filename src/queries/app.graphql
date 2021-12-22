@@ -1,4 +1,4 @@
-#import "./_categoryChildren.graphql"
+#import "./_categoryTree.graphql"
 
 query App {
   storeConfig {
@@ -10,8 +10,9 @@ query App {
 
   categoryList {
     id: uid
+    uid
     children {
-      ...categoryChildren
+      ...categoryTree
     }
   }
 }

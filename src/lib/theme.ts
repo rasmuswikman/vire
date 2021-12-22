@@ -7,10 +7,10 @@ let theme = createTheme({
   palette: {
     primary: {
       main: '#111',
-      light: '#f1f1f1',
+      light: '#fafafa',
     },
     secondary: {
-      main: '#AFE8F6',
+      main: '#FD4401',
     },
   },
   shape: {
@@ -32,8 +32,8 @@ theme = createTheme(theme, {
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: theme.shape.borderRadius,
-          border: `1px solid ${theme.palette.primary.light}`,
+          borderRadius: 0,
+          border: 'none',
           textAlign: 'center',
         },
       },
@@ -56,15 +56,18 @@ theme = createTheme(theme, {
           },
         },
         contained: {
-          color: theme.palette.primary.main,
-          background: theme.palette.primary.light,
+          color: '#fff',
+          fontWeight: '500',
+          backgroundColor: theme.palette.secondary.main,
+          backgroundImage:
+            'linear-gradient(145deg, rgba(255,122,0,1) 0%, rgba(250,15,0,1) 100%)',
           '&:hover': {
-            color: theme.palette.primary.light,
-            background: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            background: theme.palette.primary.light,
           },
           '&:active': {
-            color: theme.palette.primary.light,
-            background: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            background: theme.palette.primary.light,
           },
         },
       },
