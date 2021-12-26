@@ -1,11 +1,18 @@
-import type { NextPage } from 'next';
+import {
+  AppDocument,
+  AppQuery,
+  AppQueryVariables,
+} from '../../generated/generated-types';
 import NextLink from 'next/link';
+import { GetServerSideProps } from 'next';
+import { initUrqlClient } from 'next-urql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-const Home: NextPage = () => {
+export default function Home() {
   return (
     <Box sx={{ bgcolor: '#fafafa', mb: 2, width: '100%' }}>
       <Box
@@ -68,6 +75,23 @@ const Home: NextPage = () => {
       </Box>
     </Box>
   );
-};
+}
 
-export default Home;
+export const getServerSideProps: GetServerSideProps = async () => {
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    },
+    false,
+  );
+
+  await client?.query<AppQuery, AppQueryVariables>(AppDocument).toPromise();
+
+  return {
+    props: {
+      urqlState: ssrCache.extractData(),
+    },
+  };
+};

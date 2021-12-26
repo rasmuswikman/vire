@@ -10,7 +10,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap"
             rel="stylesheet"
           />
           <link rel="icon" href="/favicon.ico" />

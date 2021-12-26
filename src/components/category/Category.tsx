@@ -7,7 +7,7 @@ import {
   ProductsQuery,
   ProductsQueryVariables,
 } from '../../../generated/generated-types';
-import { useQuery } from '@apollo/client';
+import { useQuery } from 'urql';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import NextLink from 'next/link';
@@ -29,21 +29,21 @@ type Props = {
 
 export default function Category(props: Props) {
   const { url, page, id } = props;
-  const { loading, data } = useQuery<RouteQuery, RouteQueryVariables>(
-    RouteDocument,
-    {
-      variables: { url },
-    },
-  );
-  const { data: dataProducts, loading: loadingProducts } = useQuery<
-    ProductsQuery,
-    ProductsQueryVariables
-  >(ProductsDocument, {
+  const [result] = useQuery<RouteQuery, RouteQueryVariables>({
+    query: RouteDocument,
+    variables: { url },
+  });
+  const { data, fetching } = result;
+
+  const [resultProducts] = useQuery<ProductsQuery, ProductsQueryVariables>({
+    query: ProductsDocument,
     variables: {
       filters: { category_uid: { eq: id } },
       page: page ?? 1,
     },
   });
+  const { data: dataProducts, fetching: fetchingProducts } = resultProducts;
+
   const router = useRouter();
   const category = data?.route?.__typename === 'CategoryTree' ? data?.route : null;
   const categoryUrlSuffix = data?.storeConfig?.category_url_suffix ?? '';
@@ -58,7 +58,7 @@ export default function Category(props: Props) {
     }
   };
 
-  if (loading || !data || loadingProducts || !dataProducts) return <Loading />;
+  if (fetching || !data || fetchingProducts || !dataProducts) return <Loading />;
 
   return category ? (
     <>

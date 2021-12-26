@@ -4,7 +4,7 @@ import {
   AppQuery,
   AppQueryVariables,
 } from '../../generated/generated-types';
-import { useQuery } from '@apollo/client';
+import { useQuery } from 'urql';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Navigation from './navigation/Navigation';
@@ -18,11 +18,12 @@ type Props = {
 
 export default function Layout(props: Props) {
   const { children } = props;
-  const { data, error, loading } = useQuery<AppQuery, AppQueryVariables>(
-    AppDocument,
-  );
+  const [result] = useQuery<AppQuery, AppQueryVariables>({
+    query: AppDocument,
+  });
+  const { data, fetching, error } = result;
 
-  if (loading) return null;
+  if (fetching) return null;
   if (error) return <Box>{error.message}</Box>;
   if (data?.storeConfig) {
     return (

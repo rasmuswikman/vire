@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApolloClient } from '@apollo/client';
+import { useClient } from 'urql';
 import {
   ProductsDocument,
   ProductsQuery,
@@ -28,7 +28,7 @@ type Props = {
 export default function Search(props: Props) {
   const { productUrlSuffix } = props;
   const router = useRouter();
-  const apolloClient = useApolloClient();
+  const client = useClient();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -83,17 +83,18 @@ export default function Search(props: Props) {
       if (input?.length > 2) {
         setOpen(true);
         (async () => {
-          const { data } = await apolloClient.query<
-            ProductsQuery,
-            ProductsQueryVariables
-          >({
-            query: ProductsDocument,
-            fetchPolicy: 'no-cache',
-            variables: {
-              search: input,
-              pageSize: 300,
-            },
-          });
+          const { data } = await client
+            .query<ProductsQuery, ProductsQueryVariables>(
+              ProductsDocument,
+              {
+                search: input,
+                pageSize: 300,
+              },
+              {
+                requestPolicy: 'network-only',
+              },
+            )
+            .toPromise();
           const items = data?.products?.items ?? [];
           setOptions([...items]);
         })();

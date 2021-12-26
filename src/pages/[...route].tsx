@@ -1,7 +1,8 @@
 import React from 'react';
 import Error from 'next/error';
 import { GetServerSideProps } from 'next';
-import { initializeApollo } from '../lib/apolloClient';
+import { initUrqlClient } from 'next-urql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import {
   AppDocument,
   AppQuery,
@@ -70,14 +71,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   res?.setHeader('cache-control', 's-maxage=1, stale-while-revalidate');
 
   try {
-    const apolloClient = initializeApollo();
+    const ssrCache = ssrExchange({ isClient: false });
+    const client = initUrqlClient(
+      {
+        url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
+        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+      },
+      false,
+    );
+
     const url = resolvedUrl.replace('/', '');
     const page = typeof query.page === 'string' ? parseInt(query.page) : 1;
 
-    const { data } = await apolloClient.query<RouteQuery, RouteQueryVariables>({
-      query: RouteDocument,
-      variables: { url },
-    });
+    const result = await client
+      ?.query<RouteQuery, RouteQueryVariables>(RouteDocument, { url })
+      .toPromise();
+
+    const data = result?.data;
 
     if (!data?.route) {
       if (res) res.statusCode = 404;
@@ -89,13 +99,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = data.route?.id ?? null;
 
     if (req) {
-      await apolloClient.query<AppQuery, AppQueryVariables>({ query: AppDocument });
+      await client?.query<AppQuery, AppQueryVariables>(AppDocument).toPromise();
 
       if (data.route.type === 'CATEGORY') {
-        await apolloClient.query<ProductsQuery, ProductsQueryVariables>({
-          query: ProductsDocument,
-          variables: { filters: { category_uid: { eq: id } }, page },
-        });
+        await client
+          ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
+            filters: { category_uid: { eq: id } },
+            page,
+          })
+          .toPromise();
       }
     }
 
@@ -105,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         url,
         page,
         id,
-        initialApolloState: apolloClient.cache.extract(),
+        urqlState: ssrCache.extractData(),
       },
     };
   } catch (e) {

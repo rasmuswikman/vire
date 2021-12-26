@@ -3,43 +3,28 @@ import {
   AddProductsToCartDocument,
 } from '../../generated/generated-types';
 import { useCookies } from 'react-cookie';
-import { useApolloClient } from '@apollo/client';
+import { useClient } from 'urql';
 import { useRouter } from 'next/router';
 
 const useAddToCart = () => {
-  const client = useApolloClient();
+  const client = useClient();
   const router = useRouter();
   const [cookies, setCookie] = useCookies(['cart']);
   const addToCart = async (sku: string) => {
     let cartId = cookies.cart?.cartId;
     if (typeof cartId === 'undefined') {
-      const { data } = await client.query({
-        query: CreateEmptyCartDocument,
-        fetchPolicy: 'no-cache',
-        context: {
-          fetchOptions: {
-            method: 'POST',
-          },
-        },
-      });
+      const { data } = await client.mutation(CreateEmptyCartDocument).toPromise();
       cartId = data.createEmptyCart;
     }
-    const { data } = await client.query({
-      query: AddProductsToCartDocument,
-      fetchPolicy: 'no-cache',
-      context: {
-        fetchOptions: {
-          method: 'POST',
-        },
-      },
-      variables: {
+    const { data } = await client
+      .mutation(AddProductsToCartDocument, {
         cartId,
         cartItem: {
           quantity: 1,
           sku,
         },
-      },
-    });
+      })
+      .toPromise();
     setCookie('cart', {
       ...cookies.cart,
       ...{ cartId, cartItems: data.addProductsToCart.cart.total_quantity },

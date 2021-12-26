@@ -1,10 +1,13 @@
 import React from 'react';
 import {
-  useCartQuery,
+  CartDocument,
+  CartQuery,
+  CartQueryVariables,
   SetBillingAddressOnCartDocument,
 } from '../../generated/generated-types';
 import { useCookies } from 'react-cookie';
-import { useApolloClient } from '@apollo/client';
+import { useQuery } from 'urql';
+import { useClient } from 'urql';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -13,7 +16,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Loading from '../components/Loading';
 
 const Cart = () => {
-  const client = useApolloClient();
+  const client = useClient();
   const [hasMounted, setHasMounted] = React.useState(false);
   const [orderNumber, setOrderNumber] = React.useState(false);
   const [loadingCheckout, setLoadingCheckout] = React.useState(false);
@@ -28,15 +31,11 @@ const Cart = () => {
     country_code: 'FI',
   });
   const [cookies, setCookie] = useCookies(['cart']);
-  const { loading, data } = useCartQuery({
+  const [result] = useQuery<CartQuery, CartQueryVariables>({
+    query: CartDocument,
     variables: { cartId: cookies.cart?.cartId },
-    fetchPolicy: 'no-cache',
-    context: {
-      fetchOptions: {
-        method: 'POST',
-      },
-    },
   });
+  const { data, fetching } = result;
 
   React.useEffect(() => {
     setHasMounted(true);
@@ -54,15 +53,8 @@ const Cart = () => {
   const checkout = async () => {
     setLoadingCheckout(true);
     const cartId = cookies.cart?.cartId;
-    const { data } = await client.query({
-      query: SetBillingAddressOnCartDocument,
-      fetchPolicy: 'no-cache',
-      context: {
-        fetchOptions: {
-          method: 'POST',
-        },
-      },
-      variables: {
+    const { data } = await client
+      .mutation(SetBillingAddressOnCartDocument, {
         cartId,
         email: variables.email,
         firstname: variables.firstname,
@@ -75,15 +67,15 @@ const Cart = () => {
         carrier_code: 'flatrate',
         method_code: 'flatrate',
         payment_method_code: 'checkmo',
-      },
-    });
+      })
+      .toPromise();
     setCookie('cart', {});
     setLoadingCheckout(false);
     setOrderNumber(data.placeOrder.order.order_number);
   };
 
   if (!hasMounted) return null;
-  if (loading && !data) return <Loading />;
+  if (fetching && !data) return <Loading />;
 
   return (
     <Box

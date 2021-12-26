@@ -1,8 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
-import { useApollo } from '../lib/apolloClient';
-import { ApolloProvider } from '@apollo/client';
+import { withUrqlClient } from 'next-urql';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
@@ -16,25 +15,29 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-export default function MyApp(props: MyAppProps) {
+function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const apolloClient = useApollo(pageProps);
 
   return (
     <CookiesProvider>
-      <ApolloProvider client={apolloClient}>
-        <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={theme}>
-            <Head>
-              <meta name="viewport" content="initial-scale=1, width=device-width" />
-            </Head>
-            <CssBaseline />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </CacheProvider>
-      </ApolloProvider>
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <Head>
+            <meta name="viewport" content="initial-scale=1, width=device-width" />
+          </Head>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </CacheProvider>
     </CookiesProvider>
   );
 }
+
+export default withUrqlClient(
+  () => ({
+    url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
+  }),
+  { ssr: false, neverSuspend: true },
+)(MyApp);

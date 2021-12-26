@@ -4,7 +4,7 @@ import {
   RouteQuery,
   RouteQueryVariables,
 } from '../../../generated/generated-types';
-import { useQuery } from '@apollo/client';
+import { useQuery } from 'urql';
 import Head from 'next/head';
 import Image from 'next/image';
 import Price from '../Price';
@@ -21,10 +21,11 @@ type Props = {
 
 export default function Product(props: Props) {
   const { url } = props;
-  const { loading, data } = useQuery<RouteQuery, RouteQueryVariables>(
-    RouteDocument,
-    { variables: { url } },
-  );
+  const [result] = useQuery<RouteQuery, RouteQueryVariables>({
+    query: RouteDocument,
+    variables: { url },
+  });
+  const { data, fetching } = result;
   const [loadingCart, setLoadingCart] = React.useState(false);
   const { addToCart } = useAddToCart();
   const handleAddToCart = async () => {
@@ -35,7 +36,7 @@ export default function Product(props: Props) {
     }
   };
 
-  if (loading && !data) return <Loading />;
+  if (fetching && !data) return <Loading />;
 
   // TODO: data.route can be typenames CategoryTree and CmsPage
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
