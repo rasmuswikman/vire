@@ -34,9 +34,6 @@ const Cart = () => {
   const [result] = useQuery<CartQuery, CartQueryVariables>({
     query: CartDocument,
     variables: { cartId: cookies.cart?.cartId },
-    context: {
-      preferGetMethod: false,
-    },
   });
   const { data, fetching } = result;
 

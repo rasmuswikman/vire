@@ -102,7 +102,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     // eslint-disable-next-line
     // @ts-ignore: Type CmsPage does not have an id of Scalars['ID']
-    const id = data.route?.id ?? null;
+    const id = data?.route?.id ?? null;
 
     if (req) {
       const promises = [];
