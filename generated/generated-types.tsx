@@ -7759,6 +7759,14 @@ export type ProductVirtualFragment = {
   };
 };
 
+export type StoreConfigFragment = {
+  __typename?: 'StoreConfig';
+  product_url_suffix?: string | null | undefined;
+  category_url_suffix?: string | null | undefined;
+  default_title?: string | null | undefined;
+  copyright?: string | null | undefined;
+};
+
 export type AddProductsToCartMutationVariables = Exact<{
   cartId: Scalars['String'];
   cartItem: CartItemInput;
@@ -7956,77 +7964,6 @@ export type AddProductsToCartMutation = {
             | undefined;
         };
       }
-    | null
-    | undefined;
-};
-
-export type AppQueryVariables = Exact<{ [key: string]: never }>;
-
-export type AppQuery = {
-  __typename?: 'Query';
-  storeConfig?:
-    | {
-        __typename?: 'StoreConfig';
-        product_url_suffix?: string | null | undefined;
-        category_url_suffix?: string | null | undefined;
-        default_title?: string | null | undefined;
-        copyright?: string | null | undefined;
-      }
-    | null
-    | undefined;
-  categoryList?:
-    | Array<
-        | {
-            __typename?: 'CategoryTree';
-            uid: string;
-            id: string;
-            children?:
-              | Array<
-                  | {
-                      __typename?: 'CategoryTree';
-                      uid: string;
-                      url_key?: string | null | undefined;
-                      url_path?: string | null | undefined;
-                      name?: string | null | undefined;
-                      id: string;
-                      breadcrumbs?:
-                        | Array<
-                            | {
-                                __typename?: 'Breadcrumb';
-                                category_url_path?: string | null | undefined;
-                                category_name?: string | null | undefined;
-                                id?: number | null | undefined;
-                              }
-                            | null
-                            | undefined
-                          >
-                        | null
-                        | undefined;
-                      children?:
-                        | Array<
-                            | {
-                                __typename?: 'CategoryTree';
-                                uid: string;
-                                url_key?: string | null | undefined;
-                                url_path?: string | null | undefined;
-                                name?: string | null | undefined;
-                                id: string;
-                              }
-                            | null
-                            | undefined
-                          >
-                        | null
-                        | undefined;
-                    }
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
     | null
     | undefined;
 };
@@ -9084,41 +9021,20 @@ export type CartQuery = {
 };
 
 export type CategoryQueryVariables = Exact<{
-  filters: CategoryFilterInput;
+  filters?: InputMaybe<CategoryFilterInput>;
 }>;
 
 export type CategoryQuery = {
   __typename?: 'Query';
-  storeConfig?:
-    | {
-        __typename?: 'StoreConfig';
-        product_url_suffix?: string | null | undefined;
-        category_url_suffix?: string | null | undefined;
-        default_title?: string | null | undefined;
-        copyright?: string | null | undefined;
-      }
-    | null
-    | undefined;
   categoryList?:
     | Array<
         | {
             __typename?: 'CategoryTree';
-            id?: number | null | undefined;
+            uid: string;
+            url_key?: string | null | undefined;
+            url_path?: string | null | undefined;
             name?: string | null | undefined;
-            display_mode?: string | null | undefined;
-            children?:
-              | Array<
-                  | {
-                      __typename?: 'CategoryTree';
-                      id?: number | null | undefined;
-                      url_path?: string | null | undefined;
-                      name?: string | null | undefined;
-                    }
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
+            id: string;
             breadcrumbs?:
               | Array<
                   | {
@@ -9126,6 +9042,21 @@ export type CategoryQuery = {
                       category_url_path?: string | null | undefined;
                       category_name?: string | null | undefined;
                       id?: number | null | undefined;
+                    }
+                  | null
+                  | undefined
+                >
+              | null
+              | undefined;
+            children?:
+              | Array<
+                  | {
+                      __typename?: 'CategoryTree';
+                      uid: string;
+                      url_key?: string | null | undefined;
+                      url_path?: string | null | undefined;
+                      name?: string | null | undefined;
+                      id: string;
                     }
                   | null
                   | undefined
@@ -9834,16 +9765,6 @@ export type RouteQueryVariables = Exact<{
 
 export type RouteQuery = {
   __typename?: 'Query';
-  storeConfig?:
-    | {
-        __typename?: 'StoreConfig';
-        product_url_suffix?: string | null | undefined;
-        category_url_suffix?: string | null | undefined;
-        default_title?: string | null | undefined;
-        copyright?: string | null | undefined;
-      }
-    | null
-    | undefined;
   route?:
     | {
         __typename?: 'BundleProduct';
@@ -10379,6 +10300,22 @@ export type RouteQuery = {
     | undefined;
 };
 
+export type StoreConfigQueryVariables = Exact<{ [key: string]: never }>;
+
+export type StoreConfigQuery = {
+  __typename?: 'Query';
+  storeConfig?:
+    | {
+        __typename?: 'StoreConfig';
+        product_url_suffix?: string | null | undefined;
+        category_url_suffix?: string | null | undefined;
+        default_title?: string | null | undefined;
+        copyright?: string | null | undefined;
+      }
+    | null
+    | undefined;
+};
+
 export const CategoryTreeFragmentDoc = gql`
   fragment categoryTree on CategoryTree {
     id: uid
@@ -10603,6 +10540,14 @@ export const ProductVirtualFragmentDoc = gql`
   }
   ${PriceRangeFragmentDoc}
 `;
+export const StoreConfigFragmentDoc = gql`
+  fragment storeConfig on StoreConfig {
+    product_url_suffix
+    category_url_suffix
+    default_title
+    copyright
+  }
+`;
 export const AddProductsToCartDocument = gql`
   mutation AddProductsToCart($cartId: String!, $cartItem: CartItemInput!) {
     addProductsToCart(cartId: $cartId, cartItems: [$cartItem]) {
@@ -10625,30 +10570,6 @@ export function useAddProductsToCartMutation() {
     AddProductsToCartMutation,
     AddProductsToCartMutationVariables
   >(AddProductsToCartDocument);
-}
-export const AppDocument = gql`
-  query App {
-    storeConfig {
-      product_url_suffix
-      category_url_suffix
-      default_title
-      copyright
-    }
-    categoryList {
-      id: uid
-      uid
-      children {
-        ...categoryTree
-      }
-    }
-  }
-  ${CategoryTreeFragmentDoc}
-`;
-
-export function useAppQuery(
-  options: Omit<Urql.UseQueryArgs<AppQueryVariables>, 'query'> = {},
-) {
-  return Urql.useQuery<AppQuery>({ query: AppDocument, ...options });
 }
 export const CartDocument = gql`
   query Cart($cartId: String!) {
@@ -10695,29 +10616,12 @@ export function useCartQuery(
   return Urql.useQuery<CartQuery>({ query: CartDocument, ...options });
 }
 export const CategoryDocument = gql`
-  query Category($filters: CategoryFilterInput!) {
-    storeConfig {
-      product_url_suffix
-      category_url_suffix
-      default_title
-      copyright
-    }
+  query Category($filters: CategoryFilterInput) {
     categoryList(filters: $filters) {
-      id
-      name
-      display_mode
-      children {
-        id
-        url_path
-        name
-      }
-      breadcrumbs {
-        id: category_id
-        category_url_path
-        category_name
-      }
+      ...categoryTree
     }
   }
+  ${CategoryTreeFragmentDoc}
 `;
 
 export function useCategoryQuery(
@@ -10911,12 +10815,6 @@ export function useProductsQuery(
 }
 export const RouteDocument = gql`
   query Route($url: String!) {
-    storeConfig {
-      product_url_suffix
-      category_url_suffix
-      default_title
-      copyright
-    }
     route(url: $url) {
       type
       ...categoryTree
@@ -10943,4 +10841,18 @@ export function useRouteQuery(
   options: Omit<Urql.UseQueryArgs<RouteQueryVariables>, 'query'> = {},
 ) {
   return Urql.useQuery<RouteQuery>({ query: RouteDocument, ...options });
+}
+export const StoreConfigDocument = gql`
+  query StoreConfig {
+    storeConfig {
+      ...storeConfig
+    }
+  }
+  ${StoreConfigFragmentDoc}
+`;
+
+export function useStoreConfigQuery(
+  options: Omit<Urql.UseQueryArgs<StoreConfigQueryVariables>, 'query'> = {},
+) {
+  return Urql.useQuery<StoreConfigQuery>({ query: StoreConfigDocument, ...options });
 }

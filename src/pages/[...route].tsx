@@ -4,9 +4,12 @@ import { GetServerSideProps } from 'next';
 import { initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import {
-  AppDocument,
-  AppQuery,
-  AppQueryVariables,
+  StoreConfigDocument,
+  StoreConfigQuery,
+  StoreConfigQueryVariables,
+  CategoryDocument,
+  CategoryQuery,
+  CategoryQueryVariables,
   RouteDocument,
   RouteQuery,
   RouteQueryVariables,
@@ -76,6 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       {
         url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
         exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+        preferGetMethod: true,
       },
       false,
     );
@@ -99,16 +103,32 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = data.route?.id ?? null;
 
     if (req) {
-      await client?.query<AppQuery, AppQueryVariables>(AppDocument).toPromise();
+      const promises = [];
+
+      promises.push(
+        client
+          ?.query<StoreConfigQuery, StoreConfigQueryVariables>(StoreConfigDocument)
+          .toPromise(),
+      );
+
+      promises.push(
+        client
+          ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument)
+          .toPromise(),
+      );
 
       if (data.route.type === 'CATEGORY') {
-        await client
-          ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
-            filters: { category_uid: { eq: id } },
-            page,
-          })
-          .toPromise();
+        promises.push(
+          client
+            ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
+              filters: { category_uid: { eq: id } },
+              page,
+            })
+            .toPromise(),
+        );
       }
+
+      await Promise.all(promises);
     }
 
     return {

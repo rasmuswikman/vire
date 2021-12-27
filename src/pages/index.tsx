@@ -1,7 +1,10 @@
 import {
-  AppDocument,
-  AppQuery,
-  AppQueryVariables,
+  StoreConfigDocument,
+  StoreConfigQuery,
+  StoreConfigQueryVariables,
+  CategoryDocument,
+  CategoryQuery,
+  CategoryQueryVariables,
 } from '../../generated/generated-types';
 import NextLink from 'next/link';
 import { GetServerSideProps } from 'next';
@@ -83,11 +86,17 @@ export const getServerSideProps: GetServerSideProps = async () => {
     {
       url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
       exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+      preferGetMethod: true,
     },
     false,
   );
 
-  await client?.query<AppQuery, AppQueryVariables>(AppDocument).toPromise();
+  await client
+    ?.query<StoreConfigQuery, StoreConfigQueryVariables>(StoreConfigDocument)
+    .toPromise();
+  await client
+    ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument)
+    .toPromise();
 
   return {
     props: {

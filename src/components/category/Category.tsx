@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   RouteDocument,
   RouteQuery,
@@ -17,6 +17,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
+import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import Loading from '../Loading';
 import ProductCard from './ProductCard';
 
@@ -29,6 +30,7 @@ type Props = {
 
 export default function Category(props: Props) {
   const { url, page, id } = props;
+  const { storeConfig } = useContext(StoreConfigContext);
   const [result] = useQuery<RouteQuery, RouteQueryVariables>({
     query: RouteDocument,
     variables: { url },
@@ -46,8 +48,8 @@ export default function Category(props: Props) {
 
   const router = useRouter();
   const category = data?.route?.__typename === 'CategoryTree' ? data?.route : null;
-  const categoryUrlSuffix = data?.storeConfig?.category_url_suffix ?? '';
-  const productUrlSuffix = data?.storeConfig?.product_url_suffix ?? '';
+  const categoryUrlSuffix = storeConfig.category_url_suffix ?? '';
+  const productUrlSuffix = storeConfig.product_url_suffix ?? '';
 
   const handlePagination = (event: React.ChangeEvent<unknown>, value: number) => {
     if (category) {
@@ -64,7 +66,7 @@ export default function Category(props: Props) {
     <>
       <Head>
         <title>
-          {category.name} - {data.storeConfig?.default_title}
+          {category.name} - {storeConfig.default_title}
         </title>
       </Head>
       <Breadcrumbs aria-label="breadcrumb">

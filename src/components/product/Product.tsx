@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   RouteDocument,
   RouteQuery,
@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import useAddToCart from '../../lib/useAddToCart';
 import Loading from '../Loading';
 
@@ -21,6 +22,7 @@ type Props = {
 
 export default function Product(props: Props) {
   const { url } = props;
+  const { storeConfig } = useContext(StoreConfigContext);
   const [result] = useQuery<RouteQuery, RouteQueryVariables>({
     query: RouteDocument,
     variables: { url },
@@ -47,7 +49,7 @@ export default function Product(props: Props) {
     <Box sx={{ pt: 2 }}>
       <Head>
         <title>
-          {product.name} - {data?.storeConfig?.default_title}
+          {product.name} - {storeConfig.default_title}
         </title>
       </Head>
       <Grid

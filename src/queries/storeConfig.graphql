@@ -1,0 +1,7 @@
+#import "./_storeConfig.graphql"
+
+query StoreConfig {
+  storeConfig {
+    ...storeConfig
+  }
+}

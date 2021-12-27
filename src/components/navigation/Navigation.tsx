@@ -1,21 +1,34 @@
-import React from 'react';
-import { CategoryTreeFragment } from '../../../generated/generated-types';
+import React, { useContext } from 'react';
+import {
+  CategoryDocument,
+  CategoryQuery,
+  CategoryQueryVariables,
+} from '../../../generated/generated-types';
+import { useQuery } from 'urql';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import Icons from './Icons';
 import Menu from './Menu';
 import Search from './Search';
 
-type Props = {
-  categories: Array<CategoryTreeFragment | null | undefined> | null | undefined;
-  categoryUrlSuffix: string;
-  productUrlSuffix: string;
-};
+export default function Navigation() {
+  const { storeConfig } = useContext(StoreConfigContext);
+  const [result] = useQuery<CategoryQuery, CategoryQueryVariables>({
+    query: CategoryDocument,
+  });
+  const { data, fetching } = result;
+  const categories =
+    (data?.categoryList &&
+      data?.categoryList[0] &&
+      data.categoryList[0]?.children) ??
+    null;
+  const categoryUrlSuffix = storeConfig.category_url_suffix ?? '';
+  const productUrlSuffix = storeConfig.product_url_suffix ?? '';
 
-export default function Navigation(props: Props) {
-  const { categories, categoryUrlSuffix, productUrlSuffix } = props;
+  if (fetching || !data || !categories) return null;
 
   return (
     <>
