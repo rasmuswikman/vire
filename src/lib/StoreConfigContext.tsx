@@ -1,5 +1,11 @@
-import React, { useState, FC } from 'react';
-import { StoreConfigFragment } from '../../generated/generated-types';
+import React, { useEffect, useMemo, useState, FC } from 'react';
+import {
+  StoreConfigDocument,
+  StoreConfigQuery,
+  StoreConfigQueryVariables,
+  StoreConfigFragment,
+} from '../../generated/generated-types';
+import { useClient } from 'urql';
 
 const defaultState: StoreConfigFragment = {
   product_url_suffix: '.html',
@@ -19,15 +25,28 @@ export const StoreConfigContext = React.createContext<StoreConfigContextType>({
 });
 
 export const StoreConfigProvider: FC = ({ children }) => {
-  const [storeConfig, setStoreConfig] = useState(defaultState);
+  const [storeConfig, setStoreConfig] = useState<StoreConfigFragment>(defaultState);
+  const client = useClient();
+
+  useEffect(() => {
+    client
+      .query<StoreConfigQuery, StoreConfigQueryVariables>(StoreConfigDocument)
+      .toPromise()
+      .then((result) => {
+        setStoreConfig(result?.data?.storeConfig ?? defaultState);
+      });
+  }, [client]);
+
+  const value = useMemo(
+    () => ({
+      storeConfig,
+      setStoreConfig,
+    }),
+    [storeConfig, setStoreConfig],
+  );
 
   return (
-    <StoreConfigContext.Provider
-      value={{
-        storeConfig,
-        setStoreConfig,
-      }}
-    >
+    <StoreConfigContext.Provider value={value}>
       {children}
     </StoreConfigContext.Provider>
   );

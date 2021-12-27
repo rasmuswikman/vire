@@ -8,8 +8,8 @@ module.exports = {
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
       loader: 'graphql-tag/loader',
-    })
+    });
 
-    return config
+    return config;
   },
-}
+};

@@ -4,9 +4,6 @@ import { GetServerSideProps } from 'next';
 import { initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import {
-  StoreConfigDocument,
-  StoreConfigQuery,
-  StoreConfigQueryVariables,
   CategoryDocument,
   CategoryQuery,
   CategoryQueryVariables,
@@ -104,12 +101,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if (req) {
       const promises = [];
-
-      promises.push(
-        client
-          ?.query<StoreConfigQuery, StoreConfigQueryVariables>(StoreConfigDocument)
-          .toPromise(),
-      );
 
       promises.push(
         client

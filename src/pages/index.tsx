@@ -1,7 +1,4 @@
 import {
-  StoreConfigDocument,
-  StoreConfigQuery,
-  StoreConfigQueryVariables,
   CategoryDocument,
   CategoryQuery,
   CategoryQueryVariables,
@@ -91,9 +88,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     false,
   );
 
-  await client
-    ?.query<StoreConfigQuery, StoreConfigQueryVariables>(StoreConfigDocument)
-    .toPromise();
   await client
     ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument)
     .toPromise();

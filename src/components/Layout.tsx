@@ -1,10 +1,4 @@
 import React, { useContext } from 'react';
-import {
-  StoreConfigDocument,
-  StoreConfigQuery,
-  StoreConfigQueryVariables,
-} from '../../generated/generated-types';
-import { useQuery } from 'urql';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Navigation from './navigation/Navigation';
@@ -18,18 +12,8 @@ type Props = {
 };
 
 export default function Layout(props: Props) {
-  const { storeConfig, setStoreConfig } = useContext(StoreConfigContext);
+  const { storeConfig } = useContext(StoreConfigContext);
   const { children } = props;
-  const [result] = useQuery<StoreConfigQuery, StoreConfigQueryVariables>({
-    query: StoreConfigDocument,
-  });
-  const { data, fetching, error } = result;
-
-  if (fetching) return null;
-  if (error) return <Box>{error.message}</Box>;
-  if (data?.storeConfig) {
-    setStoreConfig(data.storeConfig);
-  }
 
   return (
     <>
