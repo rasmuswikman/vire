@@ -11,6 +11,7 @@ import { useQuery } from 'urql';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import dynamic from 'next/dynamic';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Grid from '@mui/material/Grid';
@@ -19,7 +20,7 @@ import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import Loading from '../Loading';
-import ProductCard from './ProductCard';
+const ProductCard = dynamic(() => import('./ProductCard'));
 
 type Props = {
   type: string;
