@@ -71,6 +71,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   res?.setHeader('cache-control', 's-maxage=1, stale-while-revalidate');
 
+  const url = resolvedUrl.replace('/', '');
+  const page = typeof query.page === 'string' ? parseInt(query.page) : 1;
+
+  if (query?.type) {
+    return { props: { url, type: query.type } };
+  }
+
   try {
     const ssrCache = ssrExchange({ isClient: false });
     const client = initUrqlClient(
@@ -81,9 +88,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
       false,
     );
-
-    const url = resolvedUrl.replace('/', '');
-    const page = typeof query.page === 'string' ? parseInt(query.page) : 1;
 
     const result = await client
       ?.query<RouteQuery, RouteQueryVariables>(RouteDocument, { url })

@@ -38,10 +38,14 @@ export default function Category(props: Props) {
   });
   const { data, fetching } = result;
 
+  // eslint-disable-next-line
+  // @ts-ignore: Type CmsPage does not have an id of Scalars['ID']
+  const categoryId = data?.route?.id ?? id;
+
   const [resultProducts] = useQuery<ProductsQuery, ProductsQueryVariables>({
     query: ProductsDocument,
     variables: {
-      filters: { category_uid: { eq: id } },
+      filters: { category_uid: { eq: categoryId } },
       page: page ?? 1,
     },
   });
