@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
-import Navigation from './navigation/Navigation';
 import NextNProgress from 'nextjs-progressbar';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { StoreConfigContext } from '../lib/StoreConfigContext';
 import theme from '../lib/theme';
+const Navigation = dynamic(() => import('./navigation/Navigation'));
 
 type Props = {
   children?: React.ReactChild | React.ReactChild[];

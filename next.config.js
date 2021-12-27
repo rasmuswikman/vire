@@ -1,5 +1,10 @@
+// eslint-disable-next-line
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   images: {
     domains: [new URL(process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).hostname],
@@ -12,4 +17,4 @@ module.exports = {
 
     return config;
   },
-};
+});

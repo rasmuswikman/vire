@@ -1,4 +1,5 @@
 import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
 import { withUrqlClient } from 'next-urql';
@@ -8,7 +9,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '../lib/createEmotionCache';
 import theme from '../lib/theme';
 import { StoreConfigProvider } from '../lib/StoreConfigContext';
-import Layout from '../components/Layout';
+const Layout = dynamic(() => import('../components/Layout'));
 
 const clientSideEmotionCache = createEmotionCache();
 
