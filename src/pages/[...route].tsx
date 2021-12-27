@@ -1,6 +1,7 @@
 import React from 'react';
 import Error from 'next/error';
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import { initUrqlClient } from 'next-urql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import {
@@ -15,8 +16,8 @@ import {
   ProductsQueryVariables,
 } from '../../generated/generated-types';
 import Box from '@mui/material/Box';
-import Category from '../components/category/Category';
-import Product from '../components/product/Product';
+const Category = dynamic(() => import('../components/category/Category'));
+const Product = dynamic(() => import('../components/product/Product'));
 
 type Props = {
   type: string;
