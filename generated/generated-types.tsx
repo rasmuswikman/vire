@@ -7461,6 +7461,36 @@ export type ProductConfigurableFragment = {
       | null
       | undefined;
   };
+  configurable_options?:
+    | Array<
+        | {
+            __typename?: 'ConfigurableProductOptions';
+            uid: string;
+            label?: string | null | undefined;
+            position?: number | null | undefined;
+            use_default?: boolean | null | undefined;
+            attribute_code?: string | null | undefined;
+            product_id?: number | null | undefined;
+            id: string;
+            values?:
+              | Array<
+                  | {
+                      __typename?: 'ConfigurableProductOptionsValues';
+                      uid?: string | null | undefined;
+                      label?: string | null | undefined;
+                      id?: string | null | undefined;
+                    }
+                  | null
+                  | undefined
+                >
+              | null
+              | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
 };
 
 export type ProductDownloadableFragment = {
@@ -9432,6 +9462,36 @@ export type ProductsQuery = {
                       | null
                       | undefined;
                   };
+                  configurable_options?:
+                    | Array<
+                        | {
+                            __typename?: 'ConfigurableProductOptions';
+                            uid: string;
+                            label?: string | null | undefined;
+                            position?: number | null | undefined;
+                            use_default?: boolean | null | undefined;
+                            attribute_code?: string | null | undefined;
+                            product_id?: number | null | undefined;
+                            id: string;
+                            values?:
+                              | Array<
+                                  | {
+                                      __typename?: 'ConfigurableProductOptionsValues';
+                                      uid?: string | null | undefined;
+                                      label?: string | null | undefined;
+                                      id?: string | null | undefined;
+                                    }
+                                  | null
+                                  | undefined
+                                >
+                              | null
+                              | undefined;
+                          }
+                        | null
+                        | undefined
+                      >
+                    | null
+                    | undefined;
                 }
               | {
                   __typename?: 'DownloadableProduct';
@@ -9768,533 +9828,50 @@ export type RouteQuery = {
   route?:
     | {
         __typename?: 'BundleProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | {
         __typename?: 'CategoryTree';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        url_key?: string | null | undefined;
-        url_path?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        breadcrumbs?:
-          | Array<
-              | {
-                  __typename?: 'Breadcrumb';
-                  category_url_path?: string | null | undefined;
-                  category_name?: string | null | undefined;
-                  id?: number | null | undefined;
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        children?:
-          | Array<
-              | {
-                  __typename?: 'CategoryTree';
-                  uid: string;
-                  url_key?: string | null | undefined;
-                  url_path?: string | null | undefined;
-                  name?: string | null | undefined;
-                  id: string;
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
       }
     | {
         __typename?: 'CmsPage';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
-        identifier?: string | null | undefined;
-        content?: string | null | undefined;
-        content_heading?: string | null | undefined;
-        meta_title?: string | null | undefined;
-        meta_keywords?: string | null | undefined;
-        meta_description?: string | null | undefined;
-        page_layout?: string | null | undefined;
-        title?: string | null | undefined;
         url_key?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
       }
     | {
         __typename?: 'ConfigurableProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | {
         __typename?: 'DownloadableProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | {
         __typename?: 'GroupedProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | {
         __typename?: 'SimpleProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | {
         __typename?: 'VirtualProduct';
-        type?: UrlRewriteEntityTypeEnum | null | undefined;
         uid: string;
-        sku?: string | null | undefined;
-        url_key?: string | null | undefined;
-        url_suffix?: string | null | undefined;
-        name?: string | null | undefined;
+        type?: UrlRewriteEntityTypeEnum | null | undefined;
         id: string;
-        description?:
-          | { __typename?: 'ComplexTextValue'; html: string }
-          | null
-          | undefined;
-        thumbnail?:
-          | {
-              __typename?: 'ProductImage';
-              url?: string | null | undefined;
-              label?: string | null | undefined;
-              id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-        media_gallery?:
-          | Array<
-              | {
-                  __typename?: 'ProductImage';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductImage';
-                }
-              | {
-                  __typename?: 'ProductVideo';
-                  label?: string | null | undefined;
-                  url?: string | null | undefined;
-                  id?: string | null | undefined;
-                  type: 'ProductVideo';
-                }
-              | null
-              | undefined
-            >
-          | null
-          | undefined;
-        price_range: {
-          __typename?: 'PriceRange';
-          minimum_price: {
-            __typename?: 'ProductPrice';
-            discount?:
-              | {
-                  __typename?: 'ProductDiscount';
-                  amount_off?: number | null | undefined;
-                }
-              | null
-              | undefined;
-            regular_price: {
-              __typename?: 'Money';
-              currency?: CurrencyEnum | null | undefined;
-              value?: number | null | undefined;
-            };
-          };
-          maximum_price?:
-            | {
-                __typename?: 'ProductPrice';
-                discount?:
-                  | {
-                      __typename?: 'ProductDiscount';
-                      amount_off?: number | null | undefined;
-                    }
-                  | null
-                  | undefined;
-                regular_price: {
-                  __typename?: 'Money';
-                  currency?: CurrencyEnum | null | undefined;
-                  value?: number | null | undefined;
-                };
-              }
-            | null
-            | undefined;
-        };
       }
     | null
     | undefined;
@@ -10424,6 +10001,20 @@ export const ProductConfigurableFragmentDoc = gql`
     }
     price_range {
       ...priceRange
+    }
+    configurable_options {
+      id: uid
+      uid
+      label
+      position
+      use_default
+      attribute_code
+      values {
+        id: uid
+        uid
+        label
+      }
+      product_id
     }
   }
   ${PriceRangeFragmentDoc}
@@ -10817,24 +10408,19 @@ export const RouteDocument = gql`
   query Route($url: String!) {
     route(url: $url) {
       type
-      ...categoryTree
-      ...cmsPage
-      ...productBundle
-      ...productConfigurable
-      ...productDownloadable
-      ...productGrouped
-      ...productSimple
-      ...productVirtual
+      ... on CategoryTree {
+        id: uid
+        uid
+      }
+      ... on CmsPage {
+        url_key
+      }
+      ... on ProductInterface {
+        id: uid
+        uid
+      }
     }
   }
-  ${CategoryTreeFragmentDoc}
-  ${CmsPageFragmentDoc}
-  ${ProductBundleFragmentDoc}
-  ${ProductConfigurableFragmentDoc}
-  ${ProductDownloadableFragmentDoc}
-  ${ProductGroupedFragmentDoc}
-  ${ProductSimpleFragmentDoc}
-  ${ProductVirtualFragmentDoc}
 `;
 
 export function useRouteQuery(

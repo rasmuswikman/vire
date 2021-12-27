@@ -1,22 +1,16 @@
-#import "./_categoryTree.graphql"
-#import "./_cmsPage.graphql"
-#import "./_productBundle.graphql"
-#import "./_productConfigurable.graphql"
-#import "./_productDownloadable.graphql"
-#import "./_productGrouped.graphql"
-#import "./_productSimple.graphql"
-#import "./_productVirtual.graphql"
-
 query Route($url: String!) {
   route(url: $url) {
     type
-    ...categoryTree
-    ...cmsPage
-    ...productBundle
-    ...productConfigurable
-    ...productDownloadable
-    ...productGrouped
-    ...productSimple
-    ...productVirtual
+    ... on CategoryTree {
+      id: uid
+      uid
+    }
+    ... on CmsPage {
+      url_key
+    }
+    ... on ProductInterface {
+      id: uid
+      uid
+    }
   }
 }

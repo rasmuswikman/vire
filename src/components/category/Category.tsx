@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import {
-  RouteDocument,
-  RouteQuery,
-  RouteQueryVariables,
+  CategoryDocument,
+  CategoryQuery,
+  CategoryQueryVariables,
+  CategoryTreeFragment,
   ProductsDocument,
   ProductsQuery,
   ProductsQueryVariables,
@@ -24,44 +25,43 @@ const ProductCard = dynamic(() => import('./ProductCard'));
 
 type Props = {
   type: string;
-  url: string;
   page: number;
   id: string;
 };
 
 export default function Category(props: Props) {
-  const { url, page, id } = props;
+  const { page, id } = props;
   const { storeConfig } = useContext(StoreConfigContext);
-  const [result] = useQuery<RouteQuery, RouteQueryVariables>({
-    query: RouteDocument,
-    variables: { url },
+  const [result] = useQuery<CategoryQuery, CategoryQueryVariables>({
+    query: CategoryDocument,
+    variables: { filters: { category_uid: { eq: id } } },
   });
   const { data, fetching } = result;
-
-  // eslint-disable-next-line
-  // @ts-ignore: Type CmsPage does not have an id of Scalars['ID']
-  const categoryId = data?.route?.id ?? id;
 
   const [resultProducts] = useQuery<ProductsQuery, ProductsQueryVariables>({
     query: ProductsDocument,
     variables: {
-      filters: { category_uid: { eq: categoryId } },
+      filters: { category_uid: { eq: id } },
       page: page ?? 1,
     },
   });
   const { data: dataProducts, fetching: fetchingProducts } = resultProducts;
 
   const router = useRouter();
-  const category = data?.route?.__typename === 'CategoryTree' ? data?.route : null;
+  const category: CategoryTreeFragment | null =
+    data?.categoryList && data?.categoryList[0] ? data?.categoryList[0] : null;
   const categoryUrlSuffix = storeConfig.category_url_suffix ?? '';
   const productUrlSuffix = storeConfig.product_url_suffix ?? '';
 
   const handlePagination = (event: React.ChangeEvent<unknown>, value: number) => {
     if (category) {
-      router.push({
-        pathname: `/${category.url_path + categoryUrlSuffix}`,
-        query: { page: value },
-      });
+      router.push(
+        {
+          pathname: `/${category.url_path + categoryUrlSuffix}`,
+          query: { page: value, type: 'CATEGORY', id: category.id },
+        },
+        `/${category.url_path + categoryUrlSuffix}?page=${value}`,
+      );
     }
   };
 
@@ -116,6 +116,7 @@ export default function Category(props: Props) {
                             pathname: `/${category.url_path + categoryUrlSuffix}`,
                             query: {
                               type: 'CATEGORY',
+                              id: category.id,
                             },
                           }}
                           as={`/${category.url_path + categoryUrlSuffix}`}
@@ -139,6 +140,7 @@ export default function Category(props: Props) {
                           pathname: `/${category.url_path + categoryUrlSuffix}`,
                           query: {
                             type: 'CATEGORY',
+                            id: category.id,
                           },
                         }}
                         as={`/${category.url_path + categoryUrlSuffix}`}

@@ -24,4 +24,18 @@ fragment productConfigurable on ConfigurableProduct {
   price_range {
     ...priceRange
   }
+  configurable_options {
+    id: uid
+    uid
+    label
+    position
+    use_default
+    attribute_code
+    values {
+      id: uid
+      uid
+      label
+    }
+    product_id
+  }
 }

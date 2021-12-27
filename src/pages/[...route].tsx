@@ -22,6 +22,7 @@ const Product = dynamic(() => import('../components/product/Product'));
 type Props = {
   type: string;
   url: string;
+  urlKey: string;
   page: number;
   id: string;
 };
@@ -71,74 +72,89 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   res?.setHeader('cache-control', 's-maxage=1, stale-while-revalidate');
 
-  const url = resolvedUrl.replace('/', '');
+  const url = resolvedUrl.replace('/', '').split('?')[0];
+  const urlKey = url.replace('.html', '');
   const page = typeof query.page === 'string' ? parseInt(query.page) : 1;
 
   if (query?.type) {
-    return { props: { url, type: query.type } };
+    return {
+      props: { url, urlKey, page, type: query.type, id: query.id },
+    };
   }
 
-  try {
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient(
-      {
-        url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
-        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-        preferGetMethod: true,
-      },
-      false,
+  const ssrCache = ssrExchange({ isClient: false });
+  const client = initUrqlClient(
+    {
+      url: new URL('/graphql', process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).href,
+      exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+      preferGetMethod: true,
+    },
+    false,
+  );
+
+  const result = await client
+    ?.query<RouteQuery, RouteQueryVariables>(RouteDocument, { url })
+    .toPromise();
+
+  const data = result?.data;
+
+  if (!data?.route) {
+    if (res) res.statusCode = 404;
+    return { props: { type: '404' } };
+  }
+
+  const type = data.route.type;
+  const id = data.route.__typename === 'CategoryTree' ? data.route.id : null;
+
+  if (req) {
+    const promises = [];
+
+    promises.push(
+      client
+        ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument)
+        .toPromise(),
     );
 
-    const result = await client
-      ?.query<RouteQuery, RouteQueryVariables>(RouteDocument, { url })
-      .toPromise();
-
-    const data = result?.data;
-
-    if (!data?.route) {
-      if (res) res.statusCode = 404;
-      return { props: { type: '404' } };
-    }
-
-    // eslint-disable-next-line
-    // @ts-ignore: Type CmsPage does not have an id of Scalars['ID']
-    const id = data?.route?.id ?? null;
-
-    if (req) {
-      const promises = [];
-
+    if (type === 'CATEGORY') {
       promises.push(
         client
-          ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument)
+          ?.query<CategoryQuery, CategoryQueryVariables>(CategoryDocument, {
+            filters: { category_uid: { eq: id } },
+          })
           .toPromise(),
       );
 
-      if (data.route.type === 'CATEGORY') {
-        promises.push(
-          client
-            ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
-              filters: { category_uid: { eq: id } },
-              page,
-            })
-            .toPromise(),
-        );
-      }
-
-      await Promise.all(promises);
+      promises.push(
+        client
+          ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
+            filters: { category_uid: { eq: id } },
+            page,
+          })
+          .toPromise(),
+      );
     }
 
-    return {
-      props: {
-        type: data.route.type,
-        url,
-        page,
-        id,
-        urqlState: ssrCache.extractData(),
-      },
-    };
-  } catch (e) {
-    console.log(e);
-    if (res) res.statusCode = 500;
-    return { props: { type: '500' } };
+    if (type === 'PRODUCT') {
+      promises.push(
+        client
+          ?.query<ProductsQuery, ProductsQueryVariables>(ProductsDocument, {
+            filters: { url_key: { eq: urlKey } },
+          })
+          .toPromise(),
+      );
+    }
+
+    await Promise.all(promises);
   }
+
+  return {
+    props: {
+      type,
+      url,
+      urlKey,
+      page,
+      id,
+      urqlState: ssrCache.extractData(),
+    },
+  };
 };

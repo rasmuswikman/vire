@@ -31,6 +31,7 @@ export default function Menu(props: Props) {
                     pathname: `/${category.url_path + categoryUrlSuffix}`,
                     query: {
                       type: 'CATEGORY',
+                      id: category.id,
                     },
                   }}
                   as={`/${category.url_path + categoryUrlSuffix}`}
