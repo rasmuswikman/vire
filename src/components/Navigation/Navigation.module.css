@@ -1,0 +1,21 @@
+.wrapper {
+  background: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: calc(4 * var(--space));
+  padding-bottom: calc(4 * var(--space));
+  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.container a {
+  margin-left: calc(1 * var(--space));
+  margin-right: calc(1 * var(--space));
+  font-weight: 500;
+}
