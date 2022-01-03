@@ -14,10 +14,9 @@ import {
   ProductsDocument,
   ProductsQuery,
   ProductsQueryVariables,
-} from '../../generated/generated-types';
-import Box from '@mui/material/Box';
-const Category = dynamic(() => import('../components/category/Category'));
-const Product = dynamic(() => import('../components/product/Product'));
+} from '../generated/types';
+const CategoryPage = dynamic(() => import('../components/CategoryPage'));
+//const ProductPage = dynamic(() => import('../components/ProductPage'));
 
 type Props = {
   type: string;
@@ -32,11 +31,11 @@ const renderSwitch = (props: Props) => {
 
   switch (type) {
     case 'CMS_PAGE':
-      return <div>CMS is not implemented in this sample.</div>;
+      return <div>Not implemented.</div>;
     case 'CATEGORY':
-      return <Category {...props} />;
+      return <CategoryPage {...props} />;
     case 'PRODUCT':
-      return <Product {...props} />;
+      return <div>Not implemented.</div>;
     case '404':
       return <Error statusCode={404} />;
     default:
@@ -45,26 +44,7 @@ const renderSwitch = (props: Props) => {
 };
 
 export default function URLResolver(props: Props) {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        borderTop: `1px solid #f1f1f1`,
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: 'lg',
-          mx: 'auto',
-          pt: 3,
-          pb: 5,
-        }}
-      >
-        {renderSwitch(props)}
-      </Box>
-    </Box>
-  );
+  return renderSwitch(props);
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

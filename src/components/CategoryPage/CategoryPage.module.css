@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  border-top: 1px solid #f1f1f1;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: calc(3 * var(--space));
+  padding-bottom: calc(5 * var(--space));
+}
+
+.columns {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.categories a {
+  display: block;
+}
+
+.products {
+  display: grid;
+  gap: calc(2 * var(--space));
+  grid-template-columns: repeat(3, 1fr);
+}

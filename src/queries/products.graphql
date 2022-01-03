@@ -1,9 +1,4 @@
-#import "./_productBundle.graphql"
-#import "./_productConfigurable.graphql"
-#import "./_productDownloadable.graphql"
-#import "./_productGrouped.graphql"
-#import "./_productSimple.graphql"
-#import "./_productVirtual.graphql"
+#import "./_products.graphql"
 
 query Products(
   $search: String
@@ -17,28 +12,6 @@ query Products(
     pageSize: $pageSize
     currentPage: $page
   ) {
-    aggregations {
-      attribute_code
-      count
-      label
-      options {
-        count
-        label
-        value
-      }
-      position
-    }
-    page_info {
-      current_page
-      total_pages
-    }
-    items {
-      ...productBundle
-      ...productConfigurable
-      ...productDownloadable
-      ...productGrouped
-      ...productSimple
-      ...productVirtual
-    }
+    ...products
   }
 }

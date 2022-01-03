@@ -1,0 +1,14 @@
+.content {
+  background: #fff;
+  display: flex;
+}
+
+.footer {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: calc(8 * var(--space));
+  padding-bottom: calc(8 * var(--space));
+  font-size: 0.9rem;
+  text-align: center;
+}

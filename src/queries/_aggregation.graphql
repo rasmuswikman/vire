@@ -1,0 +1,11 @@
+fragment aggregation on Aggregation {
+  attribute_code
+  count
+  label
+  options {
+    count
+    label
+    value
+  }
+  position
+}

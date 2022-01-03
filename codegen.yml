@@ -2,7 +2,7 @@ schema:
   - ${NEXT_PUBLIC_ADOBE_COMMERCE_URL}/graphql
 documents: './src/queries/*.graphql'
 generates:
-  ./generated/generated-types.tsx:
+  ./src/generated/types.tsx:
     plugins:
       - typescript
       - typescript-operations

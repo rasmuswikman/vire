@@ -1,0 +1,8 @@
+.container {
+  padding-top: calc(10 * var(--space));
+  padding-bottom: calc(10 * var(--space));
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,29 @@
+.wrapper {
+  background: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row;
+  padding-top: calc(4 * var(--space));
+}
+
+.logo {
+  margin-right: calc(1 * var(--space));
+  flex-grow: 1;
+}
+
+.search {
+  flex-grow: 1;
+  flex-basis: 350px;
+  margin: 0 calc(6 * var(--space));
+}
+
+.search {
+  white-space: nowrap;
+}

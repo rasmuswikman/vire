@@ -4,7 +4,7 @@ import {
   CartQuery,
   CartQueryVariables,
   SetBillingAddressOnCartDocument,
-} from '../../generated/generated-types';
+} from '../generated/types';
 import { useCookies } from 'react-cookie';
 import { useQuery } from 'urql';
 import { useClient } from 'urql';
