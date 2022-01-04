@@ -17,7 +17,7 @@ export default function Icons() {
         <a>
           {cookies?.cart?.cartItems ?? null}
           <Image
-            src="/ionicons/bag.svg"
+            src="/icons/bag.svg"
             width={28}
             height={28}
             alt="Shopping bag icon"

@@ -11,9 +11,15 @@ body {
 
 body {
   color: var(--color-primary);
-  background-color: var(--color-light);
+  background-color: var(--color-ultralight);
 }
 
 a {
   color: var(--color-primary);
+}
+
+input {
+  background-color: var(--color-light);
+  border: none;
+  padding: calc(1 * var(--space));
 }

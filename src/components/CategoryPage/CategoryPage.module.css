@@ -15,6 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  flex-flow: column;
 }
 
 .categories a {
@@ -24,5 +25,15 @@
 .products {
   display: grid;
   gap: calc(2 * var(--space));
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media only screen and (min-width: 600px) {
+  .columns {
+    flex-flow: row;
+  }
+
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (query?.type) {
     return {
-      props: { url, urlKey, page, type: query.type, id: query.id },
+      props: { url, urlKey, page, type: query.type, id: query.id ?? null },
     };
   }
 

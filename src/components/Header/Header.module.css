@@ -14,16 +14,19 @@
 }
 
 .logo {
-  margin-right: calc(1 * var(--space));
-  flex-grow: 1;
+  margin-right: calc(2 * var(--space));
 }
 
 .search {
   flex-grow: 1;
   flex-basis: 350px;
-  margin: 0 calc(6 * var(--space));
+  margin: 0 calc(12 * var(--space));
 }
 
 .search {
   white-space: nowrap;
+}
+
+.icons {
+  margin-left: calc(2 * var(--space));
 }

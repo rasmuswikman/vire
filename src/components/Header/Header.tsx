@@ -4,6 +4,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 const Icons = dynamic(() => import('../Icons'));
 const Navigation = dynamic(() => import('../Navigation'));
+const Search = dynamic(() => import('../Search'));
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -18,7 +19,9 @@ export default function Header() {
               </a>
             </NextLink>
           </div>
-          <div className={styles.search}>{/*<Search />*/}</div>
+          <div className={styles.search}>
+            <Search />
+          </div>
           <div className={styles.icons}>
             <Icons />
           </div>

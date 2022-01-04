@@ -1,0 +1,33 @@
+.search {
+  position: relative;
+}
+
+.searchinput {
+  width: 100%;
+  border-radius: var(--border-radius);
+  padding-left: calc(2 * var(--space));
+}
+
+.searchlabel {
+  display: none;
+}
+
+.searchlist {
+  z-index: 1;
+  position: absolute;
+  background: #fff;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.searchitem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: calc(1 * var(--space));
+}
+
+.searchitemcontent {
+  margin-left: calc(1 * var(--space));
+}
