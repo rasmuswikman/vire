@@ -41,37 +41,28 @@ export default function ProductCard(props: Props) {
           as={`/${product.url_key + productUrlSuffix}`}
         >
           <a>
-            <div
-              style={{
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              {index === 0 ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={product.thumbnail.url}
-                  alt={product.thumbnail.label ?? 'Product image'}
-                  width={320}
-                  height={397}
-                />
-              ) : (
-                <Image
-                  src={product.thumbnail.url}
-                  alt={product.thumbnail.label ?? 'Product image'}
-                  width={320}
-                  height={397}
-                />
-              )}
-            </div>
+            {index === 0 ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={product.thumbnail.url}
+                alt={product.thumbnail.label ?? 'Product image'}
+                width={320}
+                height={397}
+              />
+            ) : (
+              <Image
+                src={product.thumbnail.url}
+                alt={product.thumbnail.label ?? 'Product image'}
+                width={320}
+                height={397}
+              />
+            )}
             <div
               dangerouslySetInnerHTML={{
                 __html: product.name ?? '',
               }}
             />
             <Price price={product.price_range} />
-            <div className={styles.overlay} />
           </a>
         </Link>
       )}

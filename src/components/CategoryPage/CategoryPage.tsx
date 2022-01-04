@@ -38,12 +38,14 @@ export default function CategoryPage(props: Props) {
     variables: { filters: { category_uid: { eq: id } } },
   });
   const { data, fetching } = result;
+  /*
   const [products, setProducts] = React.useState<
     ProductsFragment | undefined | null
   >(null);
   const [aggregations, setAggregations] = React.useState<
     Array<AggregationFragment | null | undefined>
   >([]);
+  */
 
   const [resultProducts] = useQuery<ProductsQuery, ProductsQueryVariables>({
     query: ProductsDocument,
@@ -53,7 +55,9 @@ export default function CategoryPage(props: Props) {
     },
   });
   const { data: dataProducts } = resultProducts;
+  const products = dataProducts?.products;
 
+  /*
   const getProducts = async (
     filter: Record<string, Record<string, string>>,
     page: number,
@@ -74,6 +78,7 @@ export default function CategoryPage(props: Props) {
   }, [setProducts, dataProducts?.products]);
 
   const router = useRouter();
+   */
   const category: CategoryTreeFragment | null =
     data?.categoryList && data?.categoryList[0] ? data?.categoryList[0] : null;
   const categoryUrlSuffix = storeConfig.category_url_suffix ?? '';
@@ -91,7 +96,6 @@ export default function CategoryPage(props: Props) {
       );
     }
   };
-  */
 
   const handleAggregations = (options: Record<string, Record<string, boolean>>) => {
     if (category) {
@@ -120,6 +124,7 @@ export default function CategoryPage(props: Props) {
       getProducts(filter, page);
     }
   };
+  */
 
   if (fetching || !data) return <Loading />;
 
@@ -165,23 +170,22 @@ export default function CategoryPage(props: Props) {
             />
           ) */}
           </div>
-          <div>
-            {products?.items && products?.items.length > 0 ? (
-              <>
-                <div className={styles.products}>
-                  {products.items.map(
-                    (product, index) =>
-                      product && (
-                        <ProductCard
-                          index={index}
-                          key={product.id}
-                          product={product}
-                          productUrlSuffix={productUrlSuffix}
-                        />
-                      ),
-                  )}
-                </div>
-                {/*products?.page_info?.total_pages &&
+          {products?.items && products?.items.length > 0 ? (
+            <>
+              <div className={styles.products}>
+                {products.items.map(
+                  (product, index) =>
+                    product && (
+                      <ProductCard
+                        index={index}
+                        key={product.id}
+                        product={product}
+                        productUrlSuffix={productUrlSuffix}
+                      />
+                    ),
+                )}
+              </div>
+              {/*products?.page_info?.total_pages &&
                 products?.page_info?.total_pages > 1 && (
                   <Box
                     sx={{
@@ -198,11 +202,10 @@ export default function CategoryPage(props: Props) {
                     />
                   </Box>
                   )*/}
-              </>
-            ) : (
-              <>No products.</>
-            )}
-          </div>
+            </>
+          ) : (
+            <>No products.</>
+          )}
         </div>
       </div>
     </div>
