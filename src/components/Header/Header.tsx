@@ -15,7 +15,7 @@ export default function Header() {
           <div className={styles.logo}>
             <NextLink href="/">
               <a>
-                <Image src="/logo.svg" alt="Store logo" width={120} height={37} />
+                <Image src="/logo.svg" alt="Store logo" width={88} height={35} />
               </a>
             </NextLink>
           </div>
