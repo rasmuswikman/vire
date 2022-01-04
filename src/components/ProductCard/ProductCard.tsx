@@ -31,56 +31,49 @@ export default function ProductCard(props: Props) {
   return (
     <div className={styles.container}>
       {product.thumbnail?.url && (
-        <>
-          {index === 0 && (
-            <Head>
-              <link rel="preload" href={product.thumbnail.url} as="image" />
-            </Head>
-          )}
-          <Link
-            href={{
-              pathname: `/${product.url_key + productUrlSuffix}`,
-              query: {
-                type: 'PRODUCT',
-              },
-            }}
-            as={`/${product.url_key + productUrlSuffix}`}
-          >
-            <a>
-              <div
-                style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
-                {index === 0 ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={product.thumbnail.url}
-                    alt={product.thumbnail.label ?? 'Product image'}
-                    width={320}
-                    height={397}
-                  />
-                ) : (
-                  <Image
-                    src={product.thumbnail.url}
-                    alt={product.thumbnail.label ?? 'Product image'}
-                    width={320}
-                    height={397}
-                  />
-                )}
-              </div>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: product.name ?? '',
-                }}
-              />
-              <Price price={product.price_range} />
-              <div className={styles.overlay} />
-            </a>
-          </Link>
-        </>
+        <Link
+          href={{
+            pathname: `/${product.url_key + productUrlSuffix}`,
+            query: {
+              type: 'PRODUCT',
+            },
+          }}
+          as={`/${product.url_key + productUrlSuffix}`}
+        >
+          <a>
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              {index === 0 ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={product.thumbnail.url}
+                  alt={product.thumbnail.label ?? 'Product image'}
+                  width={320}
+                  height={397}
+                />
+              ) : (
+                <Image
+                  src={product.thumbnail.url}
+                  alt={product.thumbnail.label ?? 'Product image'}
+                  width={320}
+                  height={397}
+                />
+              )}
+            </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: product.name ?? '',
+              }}
+            />
+            <Price price={product.price_range} />
+            <div className={styles.overlay} />
+          </a>
+        </Link>
       )}
     </div>
   );

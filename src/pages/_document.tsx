@@ -22,6 +22,11 @@ export default function Document() {
           name="description"
           content="Vire is a concept storefront built with Next.js on the Adobe Commerce GraphQL API."
         />
+        <link
+          rel="preload"
+          href="https://m.rasmuswikman.com/media/catalog/product/cache/3ec1b99e63e099d3fbf6399ed95d3dda/o/p/optimized-wb04-blue-0.jpg"
+          as="image"
+        />
       </Head>
       <body>
         <Main />
