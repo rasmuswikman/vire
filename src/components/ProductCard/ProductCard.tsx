@@ -53,6 +53,8 @@ export default function ProductCard(props: Props) {
                 width={320}
                 height={397}
                 priority={index === 0}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkMAYAADkANVKH3ScAAAAASUVORK5CYII="
               />
             </div>
             <div
