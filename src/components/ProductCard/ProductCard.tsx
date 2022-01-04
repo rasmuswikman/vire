@@ -13,6 +13,7 @@ import Price from '../Price';
 import styles from './ProductCard.module.css';
 
 type Props = {
+  index: number;
   product:
     | ProductBundleFragment
     | ProductConfigurableFragment
@@ -24,7 +25,7 @@ type Props = {
 };
 
 export default function ProductCard(props: Props) {
-  const { product, productUrlSuffix } = props;
+  const { index, product, productUrlSuffix } = props;
 
   return (
     <div className={styles.container}>
@@ -51,6 +52,7 @@ export default function ProductCard(props: Props) {
                 alt={product.thumbnail.label ?? 'Product image'}
                 width={320}
                 height={397}
+                priority={index === 0}
               />
             </div>
             <div

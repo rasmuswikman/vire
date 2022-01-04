@@ -8,10 +8,6 @@
   padding-left: calc(2 * var(--space));
 }
 
-.searchlabel {
-  display: none;
-}
-
 .searchlist {
   z-index: 1;
   position: absolute;

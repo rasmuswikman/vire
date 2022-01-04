@@ -170,9 +170,10 @@ export default function CategoryPage(props: Props) {
               <>
                 <div className={styles.products}>
                   {products.items.map(
-                    (product) =>
+                    (product, index) =>
                       product && (
                         <ProductCard
+                          index={index}
                           key={product.id}
                           product={product}
                           productUrlSuffix={productUrlSuffix}

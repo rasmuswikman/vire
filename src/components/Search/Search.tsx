@@ -85,7 +85,6 @@ export default function Search() {
   return (
     <div className={styles.search}>
       <input
-        id="search"
         className={styles.searchinput}
         value={value}
         onChange={(e) => {
@@ -93,10 +92,8 @@ export default function Search() {
           debounced(e.target.value);
         }}
         onBlur={(e) => e.relatedTarget === null && setOptions([])}
+        placeholder="Search the store"
       />
-      <label htmlFor="search" className={styles.searchlabel}>
-        Search the store
-      </label>
       {options && (
         <ul className={styles.searchlist}>
           {options.map(
