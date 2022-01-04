@@ -41,22 +41,13 @@ export default function ProductCard(props: Props) {
           as={`/${product.url_key + productUrlSuffix}`}
         >
           <a>
-            {index === 0 ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src={product.thumbnail.url}
-                alt={product.thumbnail.label ?? 'Product image'}
-                width={320}
-                height={397}
-              />
-            ) : (
-              <Image
-                src={product.thumbnail.url}
-                alt={product.thumbnail.label ?? 'Product image'}
-                width={320}
-                height={397}
-              />
-            )}
+            <Image
+              src={product.thumbnail.url}
+              alt={product.thumbnail.label ?? 'Product image'}
+              width={320}
+              height={397}
+              priority={index === 0}
+            />
             <div
               dangerouslySetInnerHTML={{
                 __html: product.name ?? '',
