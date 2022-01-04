@@ -9,7 +9,7 @@
   margin: 0 auto;
   padding-top: calc(3 * var(--space));
   padding-bottom: calc(5 * var(--space));
-  padding: calc(2 * var(--space));
+  padding: calc(4 * var(--space));
 }
 
 .columns {
