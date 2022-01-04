@@ -19,11 +19,19 @@ module.exports = withBundleAnalyzer(
     images: {
       domains: [new URL(process.env.NEXT_PUBLIC_ADOBE_COMMERCE_URL).hostname],
     },
-    webpack: (config) => {
+    webpack: (config, { dev, isServer }) => {
       config.module.rules.push({
         test: /\.(graphql|gql)$/,
         loader: 'graphql-tag/loader',
       });
+
+      if (!dev && !isServer) {
+        Object.assign(config.resolve.alias, {
+          react: 'preact/compat',
+          'react-dom/test-utils': 'preact/test-utils',
+          'react-dom': 'preact/compat',
+        });
+      }
 
       return config;
     },
