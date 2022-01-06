@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
 import { withUrqlClient } from 'next-urql';
-import { StoreConfigProvider } from '../lib/StoreConfigContext';
 const Layout = dynamic(() => import('../components/Layout'));
 import '../styles/variables.css';
 import '../styles/globals.css';
@@ -13,14 +12,12 @@ function MyApp(props: AppProps) {
 
   return (
     <CookiesProvider>
-      <StoreConfigProvider>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-        </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </StoreConfigProvider>
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </CookiesProvider>
   );
 }

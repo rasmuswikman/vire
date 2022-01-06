@@ -7,12 +7,9 @@ import {
 } from '../../generated/types';
 import { useQuery } from 'urql';
 import NextLink from 'next/link';
-import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import styles from './Navigation.module.css';
 
 export default function Navigation() {
-  const { storeConfig } = React.useContext(StoreConfigContext);
-  const categoryUrlSuffix = storeConfig.category_url_suffix ?? '';
   const [result] = useQuery<CategoryQuery, CategoryQueryVariables>({
     query: CategoryDocument,
   });
@@ -34,13 +31,13 @@ export default function Navigation() {
               <NextLink
                 key={category.id}
                 href={{
-                  pathname: `/${category.url_path + categoryUrlSuffix}`,
+                  pathname: `/${category.url_path}.html`,
                   query: {
                     type: 'CATEGORY',
                     id: category.id,
                   },
                 }}
-                as={`/${category.url_path + categoryUrlSuffix}`}
+                as={`/${category.url_path}.html`}
               >
                 <a>{category.name}</a>
               </NextLink>

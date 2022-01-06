@@ -7,7 +7,6 @@ import {
   ProductSimpleFragment,
   ProductVirtualFragment,
 } from '../../generated/types';
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import Price from '../Price';
@@ -22,23 +21,22 @@ type Props = {
     | ProductGroupedFragment
     | ProductSimpleFragment
     | ProductVirtualFragment;
-  productUrlSuffix: string;
 };
 
 export default function ProductCard(props: Props) {
-  const { index, product, productUrlSuffix } = props;
+  const { index, product } = props;
 
   return (
     <div className={styles.container}>
       {product.thumbnail?.url && (
         <Link
           href={{
-            pathname: `/${product.url_key + productUrlSuffix}`,
+            pathname: `/${product.url_key}.html`,
             query: {
               type: 'PRODUCT',
             },
           }}
-          as={`/${product.url_key + productUrlSuffix}`}
+          as={`/${product.url_key}.html`}
         >
           <a>
             <Image

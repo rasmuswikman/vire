@@ -15,12 +15,9 @@ import {
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Price from '../Price';
-import { StoreConfigContext } from '../../lib/StoreConfigContext';
 import styles from './Search.module.css';
 
 export default function Search() {
-  const { storeConfig } = React.useContext(StoreConfigContext);
-  const productUrlSuffix = storeConfig.product_url_suffix ?? '';
   const client = useClient();
   const router = useRouter();
   const [options, setOptions] = React.useState<
@@ -70,12 +67,12 @@ export default function Search() {
     if (option) {
       router.push(
         {
-          pathname: `/${option.url_key + productUrlSuffix}`,
+          pathname: `/${option.url_key}.html`,
           query: {
             type: 'PRODUCT',
           },
         },
-        `/${option.url_key + productUrlSuffix}`,
+        `/${option.url_key}.html`,
       );
       setValue('');
       setOptions([]);
