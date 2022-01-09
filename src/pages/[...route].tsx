@@ -125,6 +125,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     await Promise.all(promises);
+    /*
+  const metrics: number[] = [];
+    performance.mark('start');
+    await Promise.all(
+      promises.map((promise) => {
+        return promise?.then((value) => {
+          performance.mark('resolved');
+          performance.measure(value.operation.key + '', 'start', 'resolved');
+        });
+      }),
+    );
+
+    performance.getEntriesByType('measure').forEach((metric) => {
+      metrics.push(metric.duration);
+    });
+    performance.clearMarks();
+    performance.clearMeasures();
+    */
   }
 
   return {

@@ -1,0 +1,41 @@
+.wrapper {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  z-index: 1;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: calc(4 * var(--space));
+  padding-bottom: calc(4 * var(--space));
+  text-align: center;
+  align-items: flex-start;
+  justify-content: center;
+  list-style: none;
+  flex-flow: column;
+}
+
+.container li {
+  margin: 0 calc(1 * var(--space));
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 600px) {
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .container {
+    flex-flow: row;
+  }
+}

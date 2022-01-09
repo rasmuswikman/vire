@@ -9,24 +9,44 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-flow: row;
-  padding-top: calc(4 * var(--space));
+  flex-flow: row wrap;
+  padding: calc(4 * var(--space));
 }
 
 .logo {
   margin-right: calc(2 * var(--space));
-}
-
-.search {
   flex-grow: 1;
-  flex-basis: 350px;
-  margin: 0 calc(12 * var(--space));
+  order: 0;
 }
 
 .search {
+  margin-top: calc(2 * var(--space));
+  flex-grow: 1;
+  order: 3;
   white-space: nowrap;
 }
 
-.icons {
+.quicknav {
   margin-left: calc(2 * var(--space));
+  order: 2;
+}
+
+@media only screen and (min-width: 600px) {
+  .container {
+    flex-flow: row;
+    padding-bottom: calc(1 * var(--space));
+  }
+
+  .logo {
+    flex-grow: 0;
+  }
+
+  .search {
+    margin: 0 calc(12 * var(--space));
+    order: 2;
+  }
+
+  .quicknav {
+    order: 3;
+  }
 }

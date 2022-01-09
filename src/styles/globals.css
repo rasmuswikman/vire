@@ -1,17 +1,50 @@
-html,
-body {
-  padding: 0;
+* {
   margin: 0;
-  font-family: var(--font-family);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+html,
 body {
+  height: 100%;
+  font-family: var(--font-family);
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
   color: var(--color-primary);
   background-color: var(--color-ultralight);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 a {
@@ -22,4 +55,9 @@ input {
   background-color: var(--color-light);
   border: none;
   padding: calc(1 * var(--space));
+}
+
+#root,
+#__next {
+  isolation: isolate;
 }

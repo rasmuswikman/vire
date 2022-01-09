@@ -1,4 +1,4 @@
-import NextLink from 'next/link';
+import Link from 'next/link';
 import styles from './HomePage.module.css';
 
 export default function HomePage() {
@@ -7,9 +7,9 @@ export default function HomePage() {
       <div className={styles.hero}>
         <h1>Next.js &amp; Adobe Commerce</h1>
         <span>
-          <NextLink href="https://github.com/rasmuswikman/vire-storefront">
+          <Link href="https://github.com/rasmuswikman/vire-storefront">
             <a>Learn more</a>
-          </NextLink>
+          </Link>
         </span>
       </div>
     </div>

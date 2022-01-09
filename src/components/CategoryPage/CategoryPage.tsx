@@ -12,7 +12,6 @@ import { useQuery } from 'urql';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import Loading from '../Loading';
 const ProductCard = dynamic(() => import('../ProductCard'));
 import styles from './CategoryPage.module.css';
 
@@ -38,7 +37,7 @@ export default function CategoryPage(props: Props) {
   const category: CategoryTreeFragment | null =
     data?.categoryList && data?.categoryList[0] ? data.categoryList[0] : null;
 
-  if (fetching || !data) return <Loading />;
+  if (fetching || !data) return null;
 
   return (
     category && (
